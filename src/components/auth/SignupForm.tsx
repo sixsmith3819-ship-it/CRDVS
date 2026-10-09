@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -92,7 +92,7 @@ export function SignupForm() {
             type="email"
             required
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            placeholder="officer@zrp.gov.zw"
+            placeholder="user@magistrates.gov.zw"
             disabled={loading}
           />
         </div>
@@ -233,8 +233,9 @@ export function SignupForm() {
       </button>
 
       <p className="text-xs text-center text-gray-600">
-        By creating an account, you agree to use this system for official ZRP duties only.
+        By creating an account, you agree to use this system for official court duties only.
       </p>
     </form>
   )
 }
+

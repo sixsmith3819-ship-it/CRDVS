@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     default: 'CRDVS — Criminal Record Digital Verification System',
     template: '%s | CRDVS',
   },
-  description: 'Secure Criminal Record Digital Verification System for authorized criminal justice personnel.',
+  description: 'Secure Criminal Record Digital Verification System for Gweru Magistrates\' Court authorized personnel.',
   robots: {
     index: false,
     follow: false,
@@ -60,3 +60,5 @@ export default function RootLayout({
     </html>
   )
 }
+
+

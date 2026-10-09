@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import Link from 'next/link'
@@ -185,7 +185,7 @@ export function DashboardLayout({
           {/* Sidebar Footer */}
           <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 bg-gray-50">
             <p className="text-xs text-gray-600 text-center">
-              Zimbabwe Republic Police
+              Gweru Magistrates\' Court
             </p>
             <p className="text-xs text-gray-500 text-center mt-1">v1.0.0</p>
           </div>
@@ -207,3 +207,5 @@ export function DashboardLayout({
     </div>
   )
 }
+
+

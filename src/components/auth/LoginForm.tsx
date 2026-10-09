@@ -279,7 +279,7 @@ export function LoginForm() {
             type="email"
             value={formData.email}
             onChange={(e) => handleInputChange('email', e.target.value)}
-            placeholder="officer@zrp.gov.zw"
+            placeholder="user@magistrates.gov.zw"
             error={errors.email}
             leftIcon={
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -433,7 +433,7 @@ export function LoginForm() {
           Need access? Contact your system administrator
         </p>
         <p className="text-xs text-[#6b7280] mt-1">
-          Zimbabwe Republic Police · CRDVS v1.0
+          Gweru Magistrates\' Court · CRDVS v1.0
         </p>
       </div>
     </div>
@@ -441,3 +441,5 @@ export function LoginForm() {
 }
 
 export default LoginForm
+
+

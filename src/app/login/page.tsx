@@ -82,7 +82,7 @@ export default async function LoginPage() {
             {/* Footer Info */}
             <div className="mt-12 pt-8 border-t border-white/10">
               <div className="flex items-center justify-between text-sm text-[#6b7280]">
-                <span>Zimbabwe Republic Police</span>
+                <span>Gweru Magistrates\' Court</span>
                 <span>v2.0 · 2026</span>
               </div>
             </div>
@@ -107,7 +107,7 @@ export default async function LoginPage() {
               </div>
               
               <p className="text-sm text-[#a0a9c9]">
-                Zimbabwe Republic Police
+                Gweru Magistrates\' Court
                 <br />
                 Authorized Personnel Only
               </p>
@@ -120,7 +120,7 @@ export default async function LoginPage() {
             <div className="lg:hidden mt-6 text-center">
               <p className="text-xs text-[#6b7280] leading-relaxed">
                 This system is for authorized use only. All activities are monitored and logged 
-                in accordance with ZRP security protocols and national data protection regulations.
+                in accordance with judicial security protocols and national data protection regulations.
               </p>
             </div>
           </div>
@@ -129,3 +129,5 @@ export default async function LoginPage() {
     </AuthHeroBackground>
   )
 }
+
+

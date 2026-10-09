@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -270,14 +270,14 @@ export function Sidebar({
         {!isCollapsed ? (
           <div className="text-center">
             <p className="text-xs text-[#6b7280]">
-              Zimbabwe Republic Police
+              Gweru Magistrates\' Court
             </p>
             <p className="text-xs text-[#6b7280] mt-1">v1.0.0</p>
           </div>
         ) : (
           <div className="flex justify-center">
             <div className="w-8 h-8 rounded-full bg-[#3a4254] flex items-center justify-center">
-              <span className="text-xs text-[#a0a9c9] font-medium">ZRP</span>
+              <span className="text-xs text-[#a0a9c9] font-medium">GMC</span>
             </div>
           </div>
         )}
@@ -287,3 +287,4 @@ export function Sidebar({
 }
 
 export default Sidebar
+

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState, useCallback, useEffect } from 'react';
 import { UserPlus, Building2 } from 'lucide-react';
@@ -199,7 +199,7 @@ export function CreateUserModal({ isOpen, onClose, onSuccess }: CreateUserModalP
     }
   }, [isOpen]);
 
-  // ── Change handlers ────────────────────────────────────────────────────
+  // â”€â”€ Change handlers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   const handleChange = useCallback(
     (field: keyof FormValues) =>
@@ -247,7 +247,7 @@ export function CreateUserModal({ isOpen, onClose, onSuccess }: CreateUserModalP
     [values]
   );
 
-  // ── Submit ─────────────────────────────────────────────────────────────
+  // â”€â”€ Submit â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
@@ -313,13 +313,13 @@ export function CreateUserModal({ isOpen, onClose, onSuccess }: CreateUserModalP
     [values, onClose, onSuccess, showSuccess, showError]
   );
 
-  // ── Derived state ──────────────────────────────────────────────────────
+  // â”€â”€ Derived state â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   const passwordStrength = getPasswordStrength(values.password);
   const isPasswordWeak =
     values.password.length > 0 && passwordStrength.label === 'Weak';
 
-  // ── Render ─────────────────────────────────────────────────────────────
+  // â”€â”€ Render â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   return (
     <Modal
@@ -377,7 +377,7 @@ export function CreateUserModal({ isOpen, onClose, onSuccess }: CreateUserModalP
                     d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
                   />
                 </svg>
-                Creating…
+                Creatingâ€¦
               </>
             ) : (
               <>
@@ -396,7 +396,7 @@ export function CreateUserModal({ isOpen, onClose, onSuccess }: CreateUserModalP
         aria-label="Create new user form"
       >
         <div className="flex flex-col gap-5">
-          {/* ── Row 1: Full Name ─────────────────────────────────────── */}
+          {/* â”€â”€ Row 1: Full Name â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           <Input
             label="Full Name"
             required
@@ -414,13 +414,13 @@ export function CreateUserModal({ isOpen, onClose, onSuccess }: CreateUserModalP
             maxLength={100}
           />
 
-          {/* ── Row 2: Email ─────────────────────────────────────────── */}
+          {/* â”€â”€ Row 2: Email â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           <Input
             label="Email Address"
             required
             id="create-user-email"
             type="email"
-            placeholder="officer@zrp.gov.zw"
+            placeholder="user@magistrates.gov.zw"
             autoComplete="email"
             value={values.email}
             onChange={handleChange('email')}
@@ -433,7 +433,7 @@ export function CreateUserModal({ isOpen, onClose, onSuccess }: CreateUserModalP
             }
           />
 
-          {/* ── Row 3: Role + Department ─────────────────────────────── */}
+          {/* â”€â”€ Row 3: Role + Department â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <Select
               label="Role"
@@ -464,7 +464,7 @@ export function CreateUserModal({ isOpen, onClose, onSuccess }: CreateUserModalP
             />
           </div>
 
-          {/* ── Row 4: Password ──────────────────────────────────────── */}
+          {/* â”€â”€ Row 4: Password â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           <div>
             <Input
               label="Password"
@@ -487,7 +487,7 @@ export function CreateUserModal({ isOpen, onClose, onSuccess }: CreateUserModalP
             <PasswordStrengthBar password={values.password} />
           </div>
 
-          {/* ── Row 5: Confirm Password ──────────────────────────────── */}
+          {/* â”€â”€ Row 5: Confirm Password â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           <Input
             label="Confirm Password"
             required
@@ -507,7 +507,7 @@ export function CreateUserModal({ isOpen, onClose, onSuccess }: CreateUserModalP
             }
           />
 
-          {/* ── Password strength warning ─────────────────────────────── */}
+          {/* â”€â”€ Password strength warning â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           {isPasswordWeak && !errors.password && (
             <p
               role="alert"
@@ -518,7 +518,7 @@ export function CreateUserModal({ isOpen, onClose, onSuccess }: CreateUserModalP
                 color: '#f59e0b',
               }}
             >
-              Consider a stronger password — try adding uppercase letters, numbers, or
+              Consider a stronger password â€” try adding uppercase letters, numbers, or
               symbols.
             </p>
           )}
@@ -529,3 +529,4 @@ export function CreateUserModal({ isOpen, onClose, onSuccess }: CreateUserModalP
 }
 
 export default CreateUserModal;
+

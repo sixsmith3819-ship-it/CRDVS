@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
@@ -386,7 +386,7 @@ export function MobileNav({ currentPath, user, onNavigate }: MobileNavProps) {
           {/* Drawer Footer */}
           <div className="mt-6 pt-4 border-t border-white/10">
             <p className="text-xs text-[#6b7280] text-center">
-              Zimbabwe Republic Police
+              Gweru Magistrates\' Court
             </p>
             <p className="text-xs text-[#6b7280] text-center mt-1">v1.0.0</p>
           </div>
@@ -395,3 +395,4 @@ export function MobileNav({ currentPath, user, onNavigate }: MobileNavProps) {
     </>
   )
 }
+

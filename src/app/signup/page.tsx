@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation'
+﻿import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { SignupForm } from '@/components/auth/SignupForm'
 import Link from 'next/link'
@@ -52,17 +52,19 @@ export default async function SignupPage() {
               href="/login"
               className="text-sm text-blue-600 hover:text-blue-800 font-medium"
             >
-              ← Already have an account? Sign in
+              â† Already have an account? Sign in
             </Link>
           </div>
         </div>
 
         {/* Footer */}
         <div className="mt-8 text-center text-sm text-blue-200">
-          <p>Zimbabwe Republic Police</p>
+          <p>Gweru Magistrates\' Court</p>
           <p className="mt-1">Access will be granted immediately upon successful registration.</p>
         </div>
       </div>
     </div>
   )
 }
+
+

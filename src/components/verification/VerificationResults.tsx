@@ -112,7 +112,7 @@ export function VerificationResults({ results, searchParams, onNewSearch }: Veri
             No Criminal Record Found
           </h3>
           <p className="text-gray-700 mb-6 max-w-md mx-auto">
-            The person you searched for does not have any criminal records in the Zimbabwe Republic Police database.
+            The person you searched for does not have any criminal records in the criminal records database.
           </p>
           
           <div className="space-y-3">
@@ -399,4 +399,5 @@ export function VerificationResults({ results, searchParams, onNewSearch }: Veri
 }
 
 export default VerificationResults
+
 

@@ -1,6 +1,6 @@
-# Self-Service Signup Setup
+﻿# Self-Service Signup Setup
 
-## ✅ What Was Added
+## âœ… What Was Added
 
 1. **Signup Page** (`/signup`)
    - Beautiful registration form
@@ -20,13 +20,13 @@
    - Checks for duplicate employee IDs
    - Logs signup in audit trail
 
-## 🔧 Required Configuration
+## ðŸ”§ Required Configuration
 
 ### Disable Email Confirmation (For Instant Access)
 
 By default, Supabase requires email confirmation. To allow **instant signup**:
 
-1. Go to **Supabase Dashboard** → **Authentication** → **Providers**
+1. Go to **Supabase Dashboard** â†’ **Authentication** â†’ **Providers**
 2. Click on **"Email"**
 3. Scroll to **"Email Confirmation"**
 4. **Uncheck** "Confirm email"
@@ -41,7 +41,7 @@ If you want to keep email security:
 - The signup flow will show: "Please check your email to confirm your account"
 - After clicking the confirmation link, they can log in
 
-## 🎯 How It Works
+## ðŸŽ¯ How It Works
 
 ### User Flow:
 1. User visits `/login`
@@ -60,15 +60,15 @@ If you want to keep email security:
 7. Can immediately start using the system
 
 ### Security Features:
-- ✅ Email validation
-- ✅ Password strength validation (min 8 chars)
-- ✅ Employee ID uniqueness check
-- ✅ Password confirmation match
-- ✅ All actions logged in audit trail
-- ✅ Row Level Security (RLS) enforced
-- ✅ Secure password hashing by Supabase
+- âœ… Email validation
+- âœ… Password strength validation (min 8 chars)
+- âœ… Employee ID uniqueness check
+- âœ… Password confirmation match
+- âœ… All actions logged in audit trail
+- âœ… Row Level Security (RLS) enforced
+- âœ… Secure password hashing by Supabase
 
-## 🧪 Test It
+## ðŸ§ª Test It
 
 1. **Restart your dev server** (to pick up new routes):
    ```bash
@@ -82,14 +82,14 @@ If you want to keep email security:
 4. **Fill in the form**:
    - Full Name: `Test Officer`
    - Employee ID: `EMP999`
-   - Email: `test.officer@zrp.gov.zw`
+   - Email: `test.officer@magistrates.gov.zw`
    - Role: `Police Officer`
    - Password: `Test123456`
    - Confirm Password: `Test123456`
 
 5. **Submit** and you should be immediately logged in!
 
-## 📋 Default Roles Available
+## ðŸ“‹ Default Roles Available
 
 - **Police Officer** - Can create/update records, verify identities
 - **Court Officer** - Can manage convictions, verify identities
@@ -97,20 +97,20 @@ If you want to keep email security:
 
 **Note:** Administrator role is not available during self-signup for security reasons. Admins must be created manually or promoted by existing admins.
 
-## 🔐 Security Considerations
+## ðŸ” Security Considerations
 
 ### Pros of Instant Signup:
-- ✅ Fast onboarding
-- ✅ No delays for legitimate officers
-- ✅ Self-service reduces admin workload
+- âœ… Fast onboarding
+- âœ… No delays for legitimate officers
+- âœ… Self-service reduces admin workload
 
 ### Cons:
-- ⚠️ Anyone with the URL can create an account
-- ⚠️ No verification of officer credentials
+- âš ï¸ Anyone with the URL can create an account
+- âš ï¸ No verification of officer credentials
 
 ### Recommendations:
-1. **Add IP Whitelisting** - Only allow signups from police network
-2. **Email Domain Validation** - Only allow `@zrp.gov.zw` emails
+1. **Add IP Whitelisting** - Only allow signups from court network
+2. **Email Domain Validation** - Only allow `@magistrates.gov.zw` emails
 3. **Manual Verification** - Admin reviews new accounts within 24h
 4. **Two-Factor Authentication** - Add 2FA for sensitive operations
 
@@ -119,12 +119,13 @@ If you want to keep email security:
 Add this to the signup validation in `src/actions/auth.ts`:
 
 ```typescript
-// Only allow official ZRP emails
-if (!email.toLowerCase().endsWith('@zrp.gov.zw')) {
-  return { success: false, error: 'Please use your official ZRP email address' }
+// Only allow official Gweru Magistrates' Court emails
+if (!email.toLowerCase().endsWith('@magistrates.gov.zw')) {
+  return { success: false, error: 'Please use your official Gweru Magistrates' Court email address' }
 }
 ```
 
-## 🎉 Done!
+## ðŸŽ‰ Done!
 
 Self-service signup is now fully functional! New officers can create accounts instantly and start using the system right away.
+

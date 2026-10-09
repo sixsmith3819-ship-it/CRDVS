@@ -1,4 +1,4 @@
-# MobileNav Integration Guide
+﻿# MobileNav Integration Guide
 
 This guide shows how to integrate the new `MobileNav` component with the existing `DashboardLayout`.
 
@@ -200,7 +200,7 @@ export function DashboardLayout({
           {/* Sidebar Footer */}
           <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-[#3a4254] bg-[#252d48]">
             <p className="text-xs text-gray-400 text-center">
-              Zimbabwe Republic Police
+              Gweru Magistrates' Court
             </p>
             <p className="text-xs text-gray-500 text-center mt-1">v1.0.0</p>
           </div>
@@ -252,7 +252,7 @@ After integration, test the following:
    - Drawer opens/closes correctly
    - No conflicts with existing layout
 
-2. **Tablet/Desktop (≥ 640px)**:
+2. **Tablet/Desktop (â‰¥ 640px)**:
    - MobileNav is hidden
    - Existing sidebar works normally
    - No visual regressions

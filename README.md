@@ -1,7 +1,7 @@
 ﻿<<<<<<< HEAD
 # Criminal Record Digital Verification System (CRDVS)
 
-A secure, enterprise-grade web application for managing and verifying criminal records for the Zimbabwe Republic Police.
+A secure, enterprise-grade web application for managing and verifying criminal records for Gweru Magistrates' Court.
 
 ## ðŸš€ Features
 
@@ -72,7 +72,7 @@ Open [http://localhost:3000](http://localhost:3000)
 ### 5. Login
 
 Default test credentials (if seed data loaded):
-- Email: `admin@zrp.gov.zw`
+- Email: `admin@magistrates.gov.zw`
 - Password: `Admin@2026`
 
 ## ðŸ“ Project Structure
@@ -187,5 +187,6 @@ For system access or technical support, contact your system administrator.
 
 ---
 
-**Zimbabwe Republic Police**  
+**Gweru Magistrates' Court**  
 Criminal Record Digital Verification System v1.0.0
+
