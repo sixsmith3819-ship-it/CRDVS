@@ -1,8 +1,9 @@
+﻿<<<<<<< HEAD
 # Criminal Record Digital Verification System (CRDVS)
 
 A secure, enterprise-grade web application for managing and verifying criminal records for the Zimbabwe Republic Police.
 
-## 🚀 Features
+## ðŸš€ Features
 
 - **Identity Verification**: Search and verify individuals by National ID, name, or date of birth
 - **Criminal Records Management**: Create, view, update criminal records with full audit trails
@@ -13,7 +14,7 @@ A secure, enterprise-grade web application for managing and verifying criminal r
 - **Audit Logging**: Complete immutable audit trail of all system activities
 - **Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
 
-## 🛠️ Tech Stack
+## ðŸ› ï¸ Tech Stack
 
 - **Framework**: Next.js 16 (App Router)
 - **Language**: TypeScript
@@ -22,13 +23,13 @@ A secure, enterprise-grade web application for managing and verifying criminal r
 - **Authentication**: Supabase Auth
 - **Deployment**: Vercel (recommended)
 
-## 📋 Prerequisites
+## ðŸ“‹ Prerequisites
 
 - Node.js 20+ 
 - npm or yarn
 - Supabase account (or local Supabase instance)
 
-## 🏃 Quick Start
+## ðŸƒ Quick Start
 
 ### 1. Clone and Install
 
@@ -74,38 +75,38 @@ Default test credentials (if seed data loaded):
 - Email: `admin@zrp.gov.zw`
 - Password: `Admin@2026`
 
-## 📁 Project Structure
+## ðŸ“ Project Structure
 
 ```
 crdvs/
-├── src/
-│   ├── app/                    # Next.js App Router pages
-│   │   ├── login/              # Authentication
-│   │   ├── dashboard/          # Main application
-│   │   │   ├── records/        # Criminal records
-│   │   │   ├── verify/         # Identity verification
-│   │   │   ├── reports/        # Verification reports
-│   │   │   └── ...
-│   │   └── api/                # API routes
-│   ├── components/             # React components
-│   │   ├── auth/               # Authentication components
-│   │   ├── layout/             # Layout components
-│   │   ├── dashboard/          # Dashboard components
-│   │   ├── records/            # Records components
-│   │   └── verification/       # Verification components
-│   ├── lib/                    # Utility libraries
-│   │   ├── supabase/           # Supabase clients
-│   │   ├── auth/               # Auth helpers
-│   │   └── utils/              # Utility functions
-│   ├── types/                  # TypeScript types
-│   ├── actions/                # Server actions
-│   └── middleware.ts           # Route protection
-├── supabase/
-│   └── migrations/             # Database migrations
-└── public/                     # Static assets
+â”œâ”€â”€ src/
+â”‚   â”œâ”€â”€ app/                    # Next.js App Router pages
+â”‚   â”‚   â”œâ”€â”€ login/              # Authentication
+â”‚   â”‚   â”œâ”€â”€ dashboard/          # Main application
+â”‚   â”‚   â”‚   â”œâ”€â”€ records/        # Criminal records
+â”‚   â”‚   â”‚   â”œâ”€â”€ verify/         # Identity verification
+â”‚   â”‚   â”‚   â”œâ”€â”€ reports/        # Verification reports
+â”‚   â”‚   â”‚   â””â”€â”€ ...
+â”‚   â”‚   â””â”€â”€ api/                # API routes
+â”‚   â”œâ”€â”€ components/             # React components
+â”‚   â”‚   â”œâ”€â”€ auth/               # Authentication components
+â”‚   â”‚   â”œâ”€â”€ layout/             # Layout components
+â”‚   â”‚   â”œâ”€â”€ dashboard/          # Dashboard components
+â”‚   â”‚   â”œâ”€â”€ records/            # Records components
+â”‚   â”‚   â””â”€â”€ verification/       # Verification components
+â”‚   â”œâ”€â”€ lib/                    # Utility libraries
+â”‚   â”‚   â”œâ”€â”€ supabase/           # Supabase clients
+â”‚   â”‚   â”œâ”€â”€ auth/               # Auth helpers
+â”‚   â”‚   â””â”€â”€ utils/              # Utility functions
+â”‚   â”œâ”€â”€ types/                  # TypeScript types
+â”‚   â”œâ”€â”€ actions/                # Server actions
+â”‚   â””â”€â”€ middleware.ts           # Route protection
+â”œâ”€â”€ supabase/
+â”‚   â””â”€â”€ migrations/             # Database migrations
+â””â”€â”€ public/                     # Static assets
 ```
 
-## 🔐 Security Features
+## ðŸ” Security Features
 
 - **Row Level Security (RLS)**: Database-level access control
 - **Session-based Auth**: Secure authentication with Supabase
@@ -114,7 +115,7 @@ crdvs/
 - **Role-based Permissions**: Granular access control per user role
 - **Tamper-evident Reports**: SHA-256 hashes for verification reports
 
-## 👥 User Roles
+## ðŸ‘¥ User Roles
 
 | Role | Permissions |
 |------|-------------|
@@ -123,7 +124,7 @@ crdvs/
 | **Court Officer** | View records, manage convictions, verify identities |
 | **Prison Officer** | View records, verify identities, read-only access |
 
-## 📊 Key Workflows
+## ðŸ“Š Key Workflows
 
 ### Identity Verification
 1. Navigate to "Verify Identity"
@@ -139,7 +140,7 @@ crdvs/
 4. Add convictions and case details
 5. System auto-calculates risk level and repeat offender status
 
-## 🚢 Deployment
+## ðŸš¢ Deployment
 
 ### Vercel (Recommended)
 
@@ -157,13 +158,13 @@ Set these in your deployment platform:
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 
-## 📚 Documentation
+## ðŸ“š Documentation
 
 - [PHASE_3_COMPLETE.md](./PHASE_3_COMPLETE.md) - Detailed Phase 3 implementation guide
 - [AGENTS.md](./AGENTS.md) - AI agent development notes
 - [Database Schema](./supabase/migrations/) - SQL migrations and schema
 
-## 🧪 Testing
+## ðŸ§ª Testing
 
 ```bash
 # Run development server for manual testing
@@ -176,11 +177,11 @@ npm run build
 npm start
 ```
 
-## 📝 License
+## ðŸ“ License
 
 This is a government system for authorized use only. All activities are monitored and logged.
 
-## 🤝 Support
+## ðŸ¤ Support
 
 For system access or technical support, contact your system administrator.
 
