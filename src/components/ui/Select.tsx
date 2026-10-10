@@ -269,7 +269,7 @@ export function Select({
           // Disabled / loading
           !isInteractive && 'cursor-not-allowed opacity-50'
         )}
-        style={{ backgroundColor: '#252d48' }}
+        style={{ backgroundColor: '#ffffff' }}
       >
         {/* Selected label or placeholder */}
         <span
@@ -299,7 +299,7 @@ export function Select({
                 'transition-transform duration-200',
                 isOpen && 'rotate-180'
               )}
-              style={{ color: '#6b7280' }}
+              style={{ color: '#666666' }}
             />
           )}
         </span>
@@ -316,7 +316,7 @@ export function Select({
             tabIndex={-1}
             className="absolute left-0 right-0 mt-1 overflow-y-auto rounded-lg border py-1 shadow-lg"
             style={{
-              backgroundColor: '#1a1f3a',
+              backgroundColor: '#ffffff',
               borderColor: 'rgba(255,255,255,0.15)',
               maxHeight: '200px',
             }}
@@ -324,7 +324,7 @@ export function Select({
             {options.length === 0 ? (
               <li
                 className={cn('px-3 py-2 text-sm', sizes.text)}
-                style={{ color: '#6b7280' }}
+                style={{ color: '#666666' }}
                 aria-disabled="true"
               >
                 No options available
@@ -347,7 +347,7 @@ export function Select({
                       sizes.option
                     )}
                     style={{
-                      color: isSelected ? '#14b8a6' : '#ffffff',
+                      color: isSelected ? '#14b8a6' : '#000000',
                       backgroundColor: isFocused
                         ? '#252d48'
                         : isSelected
@@ -385,7 +385,7 @@ export function Select({
 
       {/* Helper text (only when no error message) */}
       {helperText && !errorMessage && (
-        <p id={helperId} className="text-xs" style={{ color: '#6b7280' }}>
+        <p id={helperId} className="text-xs" style={{ color: '#666666' }}>
           {helperText}
         </p>
       )}
@@ -394,4 +394,6 @@ export function Select({
 }
 
 export default Select;
+
+
 

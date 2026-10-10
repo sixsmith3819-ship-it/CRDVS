@@ -172,7 +172,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             }
             className={cn(
               // Base
-              'w-full rounded-lg border px-3 py-2.5 text-sm text-gray-900 outline-none transition-all duration-200',
+              'w-full rounded-lg border px-3 py-2.5 text-sm text-gray-900 outline-none transition-all duration-200 bg-white',
               // Placeholder
               'placeholder:text-gray-500',
               // Left padding when icon present
@@ -313,4 +313,5 @@ Input.displayName = 'Input';
 
 export { Input };
 export default Input;
+
 
