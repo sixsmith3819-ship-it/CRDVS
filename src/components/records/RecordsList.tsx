@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import { formatDate, calculateAge } from '@/lib/utils/format'
-import { getRiskLabel, getRiskColor } from '@/types'
 import type { CriminalRecord } from '@/types'
 
 export function RecordsList({
@@ -64,9 +63,6 @@ export function RecordsList({
                 Status
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Risk Level
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Convictions
               </th>
               <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -97,11 +93,6 @@ export function RecordsList({
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span className="px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-800 capitalize">
                     {record.status.replace('_', ' ')}
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span className={`px-2 py-1 text-xs font-medium rounded-full ${getRiskColor(record.risk_level)}`}>
-                    {getRiskLabel(record.risk_level)}
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
