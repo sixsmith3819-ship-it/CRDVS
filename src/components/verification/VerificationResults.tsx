@@ -268,7 +268,7 @@ export function VerificationResults({ results, searchParams, onNewSearch }: Veri
                 </div>
 
                 {/* Quick Summary */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
                   <div>
                     <p className="text-xs text-gray-600">Date of Birth</p>
                     <p className="text-sm font-medium text-gray-700">
@@ -283,24 +283,6 @@ export function VerificationResults({ results, searchParams, onNewSearch }: Veri
                     >
                       {record.status}
                     </Badge>
-                  </div>
-                  <div>
-                    <p className="text-xs text-gray-600">Last Conviction</p>
-                    <p className="text-sm font-medium text-gray-700">
-                      {record.last_conviction_date 
-                        ? formatDate(record.last_conviction_date)
-                        : 'None'
-                      }
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-gray-600">Risk Level</p>
-                    <span 
-                      className="text-sm font-medium"
-                      style={{ color: riskConfig.color }}
-                    >
-                      {riskConfig.label}
-                    </span>
                   </div>
                 </div>
               </div>
@@ -358,9 +340,6 @@ export function VerificationResults({ results, searchParams, onNewSearch }: Veri
                     </div>
                     
                     <div className="flex items-center gap-3">
-                      <Button variant="secondary" size="sm">
-                        Generate Report
-                      </Button>
                       <Link href={`/dashboard/records/${record.id}`}>
                         <Button variant="primary" size="sm">
                           View Details
