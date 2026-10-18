@@ -388,9 +388,6 @@ export function VerificationResults({ results, searchParams, onNewSearch }: Veri
             <Button variant="secondary" onClick={onNewSearch}>
               New Search
             </Button>
-            <Button variant="primary">
-              Export Results
-            </Button>
           </div>
         </div>
       </GlassCard>
