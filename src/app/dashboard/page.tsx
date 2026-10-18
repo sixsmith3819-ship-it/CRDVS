@@ -1,20 +1,9 @@
 ﻿import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import { MetricCards } from '@/components/dashboard/MetricCards'
 import { QuickActions } from '@/components/dashboard/QuickActions'
 import { NotificationsPanel } from '@/components/dashboard/NotificationsPanel'
 import { GlassCard } from '@/components/dashboard/GlassCard'
 import { Container } from '@/components/layout/Container'
-
-// Mock function to fetch dashboard metrics
-async function getDashboardMetrics() {
-  // TODO: Replace with actual database queries
-  return {
-    pendingVerifications: 47,
-    recordsThisMonth: 324,
-    activeUsers: 28
-  }
-}
 
 // Mock function to get greeting based on time of day
 function getGreeting() {
@@ -43,9 +32,6 @@ export default async function DashboardPage() {
   if (!profile) {
     redirect('/login')
   }
-
-  // Fetch dashboard metrics
-  const metrics = await getDashboardMetrics()
 
   // System status (mock - replace with actual health check)
   const systemStatus = {
@@ -114,12 +100,6 @@ export default async function DashboardPage() {
             </div>
           </GlassCard>
         </div>
-      </div>
-
-      {/* Key Metrics */}
-      <div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-6">Key Metrics</h2>
-        <MetricCards data={metrics} />
       </div>
 
       {/* Quick Actions */}
