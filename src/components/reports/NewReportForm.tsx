@@ -41,9 +41,7 @@ export function NewReportForm({ preloadedRecord }: NewReportFormProps) {
   const [searchQuery, setSearchQuery] = useState('')
   const [formData, setFormData] = useState({
     reportType: 'full_verification',
-    purpose: '',
-    recipient: '',
-    expiresInDays: '90'
+    purpose: ''
   })
 
   useEffect(() => {
@@ -110,9 +108,7 @@ export function NewReportForm({ preloadedRecord }: NewReportFormProps) {
         body: JSON.stringify({
           criminalRecordId: selectedRecord.id,
           reportType: formData.reportType,
-          purpose: formData.purpose,
-          recipient: formData.recipient || null,
-          expiresInDays: formData.expiresInDays ? parseInt(formData.expiresInDays) : null
+          purpose: formData.purpose
         })
       })
 
@@ -264,49 +260,6 @@ export function NewReportForm({ preloadedRecord }: NewReportFormProps) {
           disabled={loading}
         />
         <p className="text-xs text-gray-500 mt-1">Explain why this report is being generated</p>
-      </div>
-
-      {/* Recipient */}
-      <div>
-        <label htmlFor="recipient" className="block text-sm font-medium text-gray-700 mb-2">
-          Recipient (Optional)
-        </label>
-        <input
-          type="text"
-          id="recipient"
-          name="recipient"
-          value={formData.recipient}
-          onChange={handleChange}
-          placeholder="e.g., XYZ Corporation, Ministry of Justice..."
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          disabled={loading}
-        />
-        <p className="text-xs text-gray-500 mt-1">Organization or person requesting the report</p>
-      </div>
-
-      {/* Expiration */}
-      <div>
-        <label htmlFor="expiresInDays" className="block text-sm font-medium text-gray-700 mb-2">
-          Report Validity Period
-        </label>
-        <select
-          id="expiresInDays"
-          name="expiresInDays"
-          value={formData.expiresInDays}
-          onChange={handleChange}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          disabled={loading}
-        >
-          <option value="">No Expiration</option>
-          <option value="30">30 Days</option>
-          <option value="60">60 Days</option>
-          <option value="90">90 Days</option>
-          <option value="180">180 Days</option>
-          <option value="365">1 Year</option>
-        </select>
-        <p className="text-xs text-gray-500 mt-1">
-          After this period, the report will be marked as expired
-        </p>
       </div>
 
       {/* Form Actions */}
