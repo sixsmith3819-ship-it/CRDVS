@@ -46,7 +46,7 @@ export function DashboardLayout({
             </div>
             <button
               onClick={handleSignOut}
-              className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500"
+              className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 flex items-center gap-2"
               title="Sign Out"
               aria-label="Sign out"
             >
@@ -58,6 +58,7 @@ export function DashboardLayout({
                   d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
                 />
               </svg>
+              <span className="hidden sm:inline text-sm font-medium">Logout</span>
             </button>
           </div>
         </div>
