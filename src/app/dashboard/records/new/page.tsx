@@ -19,7 +19,7 @@ export default async function NewRecordPage() {
     .eq('id', session.user.id)
     .single()
 
-  if (!profile || !['administrator', 'police_officer'].includes((profile as any)?.role)) {
+  if (!profile || !['police_officer', 'court_officer'].includes((profile as any)?.role)) {
     redirect('/dashboard')
   }
 
