@@ -16,7 +16,6 @@ export function NewRecordForm() {
     gender: 'male' as 'male' | 'female' | 'other',
     nationality: 'Zimbabwean',
     address: '',
-    aliases: '',
     notes: ''
   })
 
@@ -73,10 +72,7 @@ export function NewRecordForm() {
       const response = await fetch('/api/records/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
-          aliases: formData.aliases ? formData.aliases.split(',').map(a => a.trim()) : []
-        })
+        body: JSON.stringify(formData)
       })
 
       const data = await response.json()
@@ -232,24 +228,6 @@ export function NewRecordForm() {
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           disabled={loading}
         />
-      </div>
-
-      {/* Aliases */}
-      <div>
-        <label htmlFor="aliases" className="block text-sm font-medium text-gray-700 mb-2">
-          Known Aliases
-        </label>
-        <input
-          type="text"
-          id="aliases"
-          name="aliases"
-          value={formData.aliases}
-          onChange={handleChange}
-          placeholder="Johnny, JD (comma-separated)"
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          disabled={loading}
-        />
-        <p className="text-xs text-gray-500 mt-1">Separate multiple aliases with commas</p>
       </div>
 
       {/* Notes */}
