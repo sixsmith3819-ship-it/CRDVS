@@ -64,11 +64,12 @@ export function EditUserForm({ user }: EditUserFormProps) {
         })
       })
 
-      const data = await response.json()
-
       if (!response.ok) {
+        const data = await response.json()
         throw new Error(data.error || 'Failed to update user')
       }
+
+      const data = await response.json()
 
       // Success - redirect to users list
       router.push('/dashboard/users')
