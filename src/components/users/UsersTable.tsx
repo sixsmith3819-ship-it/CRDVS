@@ -37,13 +37,14 @@ export function UsersTable({ users }: UsersTableProps) {
         headers: { 'Content-Type': 'application/json' },
       })
 
-      const data = await response.json()
-
       if (!response.ok) {
+        const data = await response.json()
         throw new Error(data.error || 'Failed to delete user')
       }
 
-      // Reload the page to refresh the users list
+      const data = await response.json()
+
+      // Success - reload the page to refresh the users list
       window.location.reload()
     } catch (err: any) {
       setError(err.message)
