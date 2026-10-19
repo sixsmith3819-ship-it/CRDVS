@@ -15,8 +15,7 @@ export function NewRecordForm() {
     dateOfBirth: '',
     gender: 'male' as 'male' | 'female' | 'other',
     nationality: 'Zimbabwean',
-    address: '',
-    notes: ''
+    address: ''
   })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -225,23 +224,6 @@ export function NewRecordForm() {
           value={formData.address}
           onChange={handleChange}
           placeholder="123 Main Street, Harare"
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          disabled={loading}
-        />
-      </div>
-
-      {/* Notes */}
-      <div>
-        <label htmlFor="notes" className="block text-sm font-medium text-gray-700 mb-2">
-          Notes
-        </label>
-        <textarea
-          id="notes"
-          name="notes"
-          value={formData.notes}
-          onChange={handleChange}
-          rows={3}
-          placeholder="Additional information about this record..."
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           disabled={loading}
         />
