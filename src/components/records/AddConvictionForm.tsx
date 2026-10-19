@@ -21,8 +21,6 @@ export function AddConvictionForm({ recordId, recordData }: AddConvictionFormPro
   const [formData, setFormData] = useState({
     caseNumber: '',
     offenseCategory: 'sexual_offense',
-    offenseDescription: '',
-    courtName: '',
     chargeDate: '',
     convictionDate: '',
     verdict: 'convicted',
@@ -43,14 +41,6 @@ export function AddConvictionForm({ recordId, recordData }: AddConvictionFormPro
       setError('Case number is required')
       return
     }
-    if (!formData.offenseDescription.trim()) {
-      setError('Offense description is required')
-      return
-    }
-    if (!formData.courtName.trim()) {
-      setError('Court name is required')
-      return
-    }
     if (!formData.chargeDate) {
       setError('Charge date is required')
       return
@@ -66,8 +56,6 @@ export function AddConvictionForm({ recordId, recordData }: AddConvictionFormPro
           criminalRecordId: recordId,
           caseNumber: formData.caseNumber,
           offenseCategory: formData.offenseCategory,
-          offenseDescription: formData.offenseDescription,
-          courtName: formData.courtName,
           chargeDate: formData.chargeDate,
           convictionDate: formData.convictionDate || null,
           verdict: formData.verdict,
@@ -163,41 +151,7 @@ export function AddConvictionForm({ recordId, recordData }: AddConvictionFormPro
           </select>
         </div>
 
-        <div>
-          <label htmlFor="offenseDescription" className="block text-sm font-medium text-gray-700 mb-1">
-            Offense Description <span className="text-red-500">*</span>
-          </label>
-          <textarea
-            id="offenseDescription"
-            name="offenseDescription"
-            value={formData.offenseDescription}
-            onChange={handleChange}
-            rows={3}
-            placeholder="Describe the offense in detail..."
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            disabled={loading}
-            required
-          />
-        </div>
-
         <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label htmlFor="courtName" className="block text-sm font-medium text-gray-700 mb-1">
-              Court Name <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              id="courtName"
-              name="courtName"
-              value={formData.courtName}
-              onChange={handleChange}
-              placeholder="e.g., Harare High Court"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              disabled={loading}
-              required
-            />
-          </div>
-
           <div>
             <label htmlFor="chargeDate" className="block text-sm font-medium text-gray-700 mb-1">
               Charge Date <span className="text-red-500">*</span>
@@ -213,9 +167,7 @@ export function AddConvictionForm({ recordId, recordData }: AddConvictionFormPro
               required
             />
           </div>
-        </div>
 
-        <div className="grid grid-cols-2 gap-4">
           <div>
             <label htmlFor="convictionDate" className="block text-sm font-medium text-gray-700 mb-1">
               Conviction Date
@@ -230,7 +182,9 @@ export function AddConvictionForm({ recordId, recordData }: AddConvictionFormPro
               disabled={loading}
             />
           </div>
+        </div>
 
+        <div className="grid grid-cols-2 gap-4">
           <div>
             <label htmlFor="verdict" className="block text-sm font-medium text-gray-700 mb-1">
               Verdict <span className="text-red-500">*</span>
