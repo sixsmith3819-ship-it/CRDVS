@@ -30,7 +30,10 @@ export function DuplicatesList({
 }) {
   const [flags, setFlags] = useState<DuplicateFlag[]>(initialFlags)
   const [selectedFlag, setSelectedFlag] = useState<DuplicateFlag | null>(null)
+  const [mergeFlag, setMergeFlag] = useState<DuplicateFlag | null>(null)
+  const [selectedPrimaryId, setSelectedPrimaryId] = useState<string | null>(null)
   const [reviewNotes, setReviewNotes] = useState('')
+  const [mergeNotes, setMergeNotes] = useState('')
   const [loading, setLoading] = useState(false)
 
   const handleReview = async (flagId: string, status: string) => {
@@ -60,6 +63,53 @@ export function DuplicatesList({
     } catch (error) {
       console.error('Error updating flag:', error)
       alert('Failed to update duplicate flag')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleMerge = async (flagId: string) => {
+    if (!selectedPrimaryId) {
+      alert('Please select which record to keep as primary')
+      return
+    }
+
+    setLoading(true)
+    try {
+      const primaryId = selectedPrimaryId
+      const secondaryId = primaryId === mergeFlag?.record_a.id ? mergeFlag?.record_b.id : mergeFlag?.record_a.id
+
+      const response = await fetch('/api/duplicates/merge', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          primary_id: primaryId,
+          secondary_id: secondaryId,
+          merge_reason: mergeNotes || 'Confirmed duplicate'
+        })
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error || 'Failed to merge records')
+      }
+
+      const result = await response.json()
+
+      // Update local state
+      setFlags(flags.map(f => 
+        f.id === flagId 
+          ? { ...f, flag_status: 'merged', reviewed_at: new Date().toISOString(), review_notes: mergeNotes }
+          : f
+      ))
+
+      setMergeFlag(null)
+      setSelectedPrimaryId(null)
+      setMergeNotes('')
+      alert('Records merged successfully! Secondary record has been archived.')
+    } catch (error: any) {
+      console.error('Error merging records:', error)
+      alert(`Failed to merge records: ${error.message}`)
     } finally {
       setLoading(false)
     }
@@ -280,11 +330,16 @@ export function DuplicatesList({
 
             <div className="flex gap-3">
               <button
-                onClick={() => handleReview(selectedFlag.id, 'confirmed_duplicate')}
+                onClick={() => {
+                  setMergeFlag(selectedFlag)
+                  setSelectedFlag(null)
+                  setReviewNotes('')
+                  setSelectedPrimaryId(selectedFlag.record_a.id)
+                }}
                 disabled={loading}
                 className="flex-1 bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors font-medium disabled:opacity-50"
               >
-                Confirm Duplicate
+                Confirm & Merge
               </button>
               <button
                 onClick={() => handleReview(selectedFlag.id, 'false_positive')}
@@ -305,6 +360,115 @@ export function DuplicatesList({
             >
               Cancel
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Merge Modal */}
+      {mergeFlag && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg max-w-2xl w-full p-6 max-h-[90vh] overflow-y-auto">
+            <h3 className="text-lg font-semibold mb-4">Merge Duplicate Records</h3>
+            
+            <p className="text-sm text-gray-600 mb-4">
+              Select which record to keep as primary. The other will be archived and all convictions will be transferred.
+            </p>
+
+            {/* Record Selection */}
+            <div className="space-y-4 mb-6">
+              {/* Record A Option */}
+              <div
+                onClick={() => setSelectedPrimaryId(mergeFlag.record_a.id)}
+                className={`border-2 rounded-lg p-4 cursor-pointer transition-all ${
+                  selectedPrimaryId === mergeFlag.record_a.id
+                    ? 'border-blue-500 bg-blue-50'
+                    : 'border-gray-300 hover:border-blue-300'
+                }`}
+              >
+                <div className="flex items-start gap-3">
+                  <input
+                    type="radio"
+                    checked={selectedPrimaryId === mergeFlag.record_a.id}
+                    onChange={() => setSelectedPrimaryId(mergeFlag.record_a.id)}
+                    className="mt-1"
+                  />
+                  <div className="flex-1">
+                    <h4 className="font-medium text-gray-900">{mergeFlag.record_a.full_name}</h4>
+                    <p className="text-sm text-gray-600">ID: {mergeFlag.record_a.record_id}</p>
+                    <p className="text-xs text-gray-500">National ID: {mergeFlag.record_a.national_id_number}</p>
+                    <p className="text-xs text-gray-500">Convictions: {mergeFlag.record_a.prior_conviction_count}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Record B Option */}
+              <div
+                onClick={() => setSelectedPrimaryId(mergeFlag.record_b.id)}
+                className={`border-2 rounded-lg p-4 cursor-pointer transition-all ${
+                  selectedPrimaryId === mergeFlag.record_b.id
+                    ? 'border-blue-500 bg-blue-50'
+                    : 'border-gray-300 hover:border-blue-300'
+                }`}
+              >
+                <div className="flex items-start gap-3">
+                  <input
+                    type="radio"
+                    checked={selectedPrimaryId === mergeFlag.record_b.id}
+                    onChange={() => setSelectedPrimaryId(mergeFlag.record_b.id)}
+                    className="mt-1"
+                  />
+                  <div className="flex-1">
+                    <h4 className="font-medium text-gray-900">{mergeFlag.record_b.full_name}</h4>
+                    <p className="text-sm text-gray-600">ID: {mergeFlag.record_b.record_id}</p>
+                    <p className="text-xs text-gray-500">National ID: {mergeFlag.record_b.national_id_number}</p>
+                    <p className="text-xs text-gray-500">Convictions: {mergeFlag.record_b.prior_conviction_count}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Merge Notes */}
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Merge Notes (Optional)
+              </label>
+              <textarea
+                value={mergeNotes}
+                onChange={(e) => setMergeNotes(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                rows={3}
+                placeholder="Add notes about why these records are being merged..."
+              />
+            </div>
+
+            {/* Warning */}
+            <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3 mb-6">
+              <p className="text-sm text-yellow-800">
+                <strong>⚠️ This action cannot be undone.</strong> The secondary record will be archived and all convictions will be transferred to the primary record.
+              </p>
+            </div>
+
+            {/* Actions */}
+            <div className="flex gap-3">
+              <button
+                onClick={() => handleMerge(mergeFlag.id)}
+                disabled={loading || !selectedPrimaryId}
+                className="flex-1 bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? 'Merging...' : 'Confirm Merge'}
+              </button>
+              <button
+                onClick={() => {
+                  setMergeFlag(null)
+                  setSelectedPrimaryId(null)
+                  setMergeNotes('')
+                }}
+                disabled={loading}
+                className="flex-1 bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors font-medium"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       )}
