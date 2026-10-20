@@ -190,10 +190,10 @@ export function UsersTable({ users }: UsersTableProps) {
                     <button
                       onClick={() => setOpenMenuId(openMenuId === user.id ? null : user.id)}
                       disabled={loading}
-                      className="p-2 rounded-lg hover:bg-gray-100 transition-colors duration-150 disabled:opacity-50"
+                      className="p-3 rounded-lg hover:bg-gray-200 active:bg-gray-300 transition-all duration-150 disabled:opacity-50 hover:shadow-md"
                       title="Actions"
                     >
-                      <svg className="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                      <svg className="w-6 h-6 text-gray-700 font-bold" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M10.5 1.5H9.5V.5h1v1zm0 17H9.5v-1h1v1zm0-8.5H9.5v-1h1v1zM5.5 10.5H4.5v-1h1v1zm10 0h-1v-1h1v1z" />
                       </svg>
                     </button>
