@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { useState } from 'react'
 import { formatDate, calculateAge } from '@/lib/utils/format'
 import type { CriminalRecord } from '@/types'
 
@@ -15,7 +16,37 @@ export function RecordsList({
   page: number
   pageSize: number
 }) {
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null)
+  const [deleting, setDeleting] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null)
+
   const totalPages = Math.ceil(total / pageSize)
+
+  const handleDelete = async (recordId: string, recordIdDisplay: string) => {
+    if (!confirm(`Are you sure you want to delete record ${recordIdDisplay}? This action cannot be undone.`)) {
+      return
+    }
+
+    setDeleting(recordId)
+    setError(null)
+
+    try {
+      const response = await fetch(`/api/records/${recordId}`, {
+        method: 'DELETE',
+      })
+
+      if (!response.ok) {
+        const data = await response.json()
+        throw new Error(data.error || 'Failed to delete record')
+      }
+
+      // Refresh the page to show updated records list
+      window.location.reload()
+    } catch (err: any) {
+      setError(err.message || 'Failed to delete record')
+      setDeleting(null)
+    }
+  }
 
   if (records.length === 0) {
     return (
@@ -41,6 +72,13 @@ export function RecordsList({
 
   return (
     <div className="space-y-4">
+      {/* Error message */}
+      {error && (
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+          <p className="text-sm text-red-800">{error}</p>
+        </div>
+      )}
+
       {/* Results header */}
       <div className="flex items-center justify-between text-sm text-gray-600">
         <p>
@@ -99,12 +137,43 @@ export function RecordsList({
                   {record.prior_conviction_count}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <Link
-                    href={`/dashboard/records/${record.id}`}
-                    className="text-blue-600 hover:text-blue-900"
-                  >
-                    View Details
-                  </Link>
+                  <div className="relative inline-block">
+                    <button
+                      onClick={() => setOpenMenuId(openMenuId === record.id ? null : record.id)}
+                      className="text-gray-400 hover:text-gray-600 p-2"
+                      disabled={deleting === record.id}
+                    >
+                      <svg
+                        className="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+                      </svg>
+                    </button>
+
+                    {/* Dropdown menu */}
+                    {openMenuId === record.id && (
+                      <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-10 border border-gray-200">
+                        <Link
+                          href={`/dashboard/records/${record.id}`}
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 border-b border-gray-100"
+                        >
+                          View Details
+                        </Link>
+                        <button
+                          onClick={() => {
+                            setOpenMenuId(null)
+                            handleDelete(record.id, record.record_id)
+                          }}
+                          disabled={deleting === record.id}
+                          className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          {deleting === record.id ? 'Deleting...' : 'Delete Record'}
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </td>
               </tr>
             ))}
