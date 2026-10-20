@@ -23,7 +23,7 @@ export default async function DuplicatesPage({
     .eq('id', session.user.id)
     .single()
 
-  if (!profile || !['administrator', 'police_officer'].includes((profile as any)?.role)) {
+  if (!profile || !['administrator', 'police_officer', 'court_officer'].includes((profile as any)?.role)) {
     redirect('/dashboard')
   }
 
