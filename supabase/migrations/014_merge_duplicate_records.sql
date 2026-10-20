@@ -85,7 +85,7 @@ BEGIN
     VALUES (
       auth.uid(),
       get_user_role(auth.uid()),
-      'MERGE',
+      'resolve_duplicate'::audit_action,
       'criminal_records',
       p_primary_id::TEXT,
       jsonb_build_object('secondary_record_id', p_secondary_id::TEXT),
