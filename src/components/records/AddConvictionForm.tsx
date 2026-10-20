@@ -22,7 +22,7 @@ export function AddConvictionForm({ recordId, recordData }: AddConvictionFormPro
     caseNumber: '',
     offenseCategory: 'sexual_offense',
     offenseDescription: '',
-    courtName: '',
+    courtName: 'Gweru Magistrate Court',
     chargeDate: '',
     convictionDate: '',
     verdict: 'convicted',
