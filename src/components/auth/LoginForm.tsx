@@ -330,25 +330,6 @@ export function LoginForm() {
         </div>
 
         {/* Security Options */}
-        <div className="space-y-3">
-          {/* Remember Me */}
-          <label className="flex items-center">
-            <input
-              type="checkbox"
-              checked={rememberMe}
-              onChange={(e) => setRememberMe(e.target.checked)}
-              className={cn(
-                "w-4 h-4 rounded border-2 transition-all duration-200",
-                "focus:ring-2 focus:ring-offset-2 focus:ring-offset-transparent",
-                rememberMe 
-                  ? "bg-[#14b8a6] border-[#14b8a6] text-white"
-                  : "bg-transparent border-[#3a4254]",
-                "focus:border-[#14b8a6] focus:ring-[#14b8a6]"
-              )}
-              disabled={loading}
-            />
-          </label>
-
         <div className="flex items-center justify-end">
           <a 
             href="/auth/forgot-password"
