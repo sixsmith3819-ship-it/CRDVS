@@ -36,9 +36,27 @@ export function NewRecordForm() {
       return false
     }
 
-    // Validate required fields
+    // Validate Full Name - no numbers allowed
     if (!formData.fullName.trim()) {
       setError('Full name is required')
+      return false
+    }
+
+    // Check for numbers in full name
+    if (/\d/.test(formData.fullName)) {
+      setError('Full name cannot contain numbers')
+      return false
+    }
+
+    // Check for valid name characters (letters, spaces, hyphens, apostrophes)
+    if (!/^[a-zA-Z\s\-']+$/.test(formData.fullName)) {
+      setError('Full name can only contain letters, spaces, hyphens, and apostrophes')
+      return false
+    }
+
+    // Check minimum length
+    if (formData.fullName.trim().length < 2) {
+      setError('Full name must be at least 2 characters long')
       return false
     }
 
@@ -51,6 +69,25 @@ export function NewRecordForm() {
     const dob = new Date(formData.dateOfBirth)
     if (dob > new Date()) {
       setError('Date of birth cannot be in the future')
+      return false
+    }
+
+    // Validate reasonable age (between 1 and 120 years old)
+    const today = new Date()
+    let age = today.getFullYear() - dob.getFullYear()
+    const monthDiff = today.getMonth() - dob.getMonth()
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+      age--
+    }
+
+    if (age < 1 || age > 120) {
+      setError('Please enter a valid date of birth (age should be between 1 and 120 years)')
+      return false
+    }
+
+    // Validate Nationality - no numbers allowed
+    if (formData.nationality.trim() && /\d/.test(formData.nationality)) {
+      setError('Nationality cannot contain numbers')
       return false
     }
 
@@ -149,7 +186,7 @@ export function NewRecordForm() {
             name="fullName"
             value={formData.fullName}
             onChange={handleChange}
-            placeholder="John Doe"
+            placeholder="Enter full name (letters only)"
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             required
             disabled={loading}
