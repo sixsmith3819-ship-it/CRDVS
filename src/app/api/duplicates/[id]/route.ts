@@ -26,8 +26,8 @@ export async function PATCH(
       .eq('id', session.user.id)
       .single()
 
-    if (!profile || (profile as any)?.role !== 'administrator') {
-      return NextResponse.json({ error: 'Only administrators can review duplicates' }, { status: 403 })
+    if (!profile || !['administrator', 'police_officer', 'court_officer'].includes((profile as any)?.role)) {
+      return NextResponse.json({ error: 'Only administrators, police, and court officers can review duplicates' }, { status: 403 })
     }
 
     const body = await request.json()
