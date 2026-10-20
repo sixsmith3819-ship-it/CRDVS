@@ -82,12 +82,6 @@ export function LoginForm() {
       const formDataObj = new FormData()
       formDataObj.append('email', formData.email)
       formDataObj.append('password', formData.password)
-      if (rememberMe) {
-        formDataObj.append('remember', 'true')
-      }
-      if (trustDevice) {
-        formDataObj.append('trustDevice', 'true')
-      }
 
       const result = await loginAction(formDataObj)
 
