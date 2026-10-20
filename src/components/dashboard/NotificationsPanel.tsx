@@ -5,6 +5,7 @@ import { GlassCard } from './GlassCard'
 import { cn } from '@/lib/cn'
 import { colors } from '@/lib/design-tokens'
 import { createClient } from '@/lib/supabase/client'
+import { useRouter } from 'next/navigation'
 
 interface Notification {
   id: string
@@ -27,6 +28,7 @@ export function NotificationsPanel({ className }: NotificationsPanelProps) {
   const [notifications, setNotifications] = useState<Notification[]>([])
   const [filter, setFilter] = useState<'all' | 'unread'>('all')
   const [loading, setLoading] = useState(true)
+  const router = useRouter()
 
   useEffect(() => {
     const fetchAuditLogs = async () => {
@@ -312,7 +314,10 @@ export function NotificationsPanel({ className }: NotificationsPanelProps) {
 
       {/* Footer */}
       <div className="mt-4 pt-4 border-t text-center" style={{ borderColor: colors.glassBorder }}>
-        <button className="text-sm text-teal-600 hover:text-teal-700 font-medium transition-colors">
+        <button 
+          onClick={() => router.push('/dashboard/activity')}
+          className="text-sm text-teal-600 hover:text-teal-700 font-medium transition-colors"
+        >
           View All Activity
         </button>
       </div>
