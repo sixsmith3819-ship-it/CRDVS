@@ -33,7 +33,7 @@ export function NotificationsPanel({ className }: NotificationsPanelProps) {
   useEffect(() => {
     const fetchAuditLogs = async () => {
       try {
-        const supabase = await createClient()
+        const supabase = createClient()
         
         // Fetch the latest 10 audit logs
         const { data: logs, error } = await supabase
