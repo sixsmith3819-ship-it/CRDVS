@@ -1,9 +1,10 @@
 ﻿'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { GlassCard } from './GlassCard'
 import { cn } from '@/lib/cn'
 import { colors } from '@/lib/design-tokens'
+import { createClient } from '@/lib/supabase/client'
 
 interface Notification {
   id: string
@@ -22,61 +23,84 @@ interface NotificationsPanelProps {
   className?: string
 }
 
-// Mock notifications data
-const mockNotifications: Notification[] = [
-  {
-    id: '1',
-    title: 'Verification Request Completed',
-    message: 'Identity verification for John Doe (ID: VER-2024-001) has been successfully processed.',
-    type: 'success',
-    time: '5 minutes ago',
-    read: false,
-    action: {
-      label: 'View Report',
-      onClick: () => console.log('View report')
-    }
-  },
-  {
-    id: '2',
-    title: 'Duplicate Record Detected',
-    message: 'Potential duplicate found for Sarah Johnson. Manual review required.',
-    type: 'warning',
-    time: '1 hour ago',
-    read: false,
-    action: {
-      label: 'Review',
-      onClick: () => console.log('Review duplicate')
-    }
-  },
-  {
-    id: '3',
-    title: 'System Maintenance Scheduled',
-    message: 'Database maintenance scheduled for tonight at 2:00 AM. Expected downtime: 30 minutes.',
-    type: 'info',
-    time: '2 hours ago',
-    read: true
-  },
-  {
-    id: '4',
-    title: 'New Record Created',
-    message: 'Criminal record CR-2024-0456 has been successfully added to the database.',
-    type: 'success',
-    time: '3 hours ago',
-    read: true
-  },
-  {
-    id: '5',
-    title: 'Access Attempt Failed',
-    message: 'Failed login attempt detected from unknown IP address 192.168.1.100.',
-    type: 'error',
-    time: '4 hours ago',
-    read: true
-  }
-]
-
 export function NotificationsPanel({ className }: NotificationsPanelProps) {
-  const [notifications, setNotifications] = useState<Notification[]>(mockNotifications)
+  const [notifications, setNotifications] = useState<Notification[]>([])
   const [filter, setFilter] = useState<'all' | 'unread'>('all')
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchAuditLogs = async () => {
+      try {
+        const supabase = await createClient()
+        
+        // Fetch the latest 10 audit logs
+        const { data: logs, error } = await supabase
+          .from('audit_logs')
+          .select('id, action, table_name, record_id, description, user_id, created_at')
+          .order('created_at', { ascending: false })
+          .limit(10)
+
+        if (error) {
+          console.error('Error fetching audit logs:', error)
+          setLoading(false)
+          return
+        }
+
+        // Transform audit logs into notifications
+        const transformedNotifications = logs?.map((log: any) => {
+          const getNotificationDetails = (action: string, tableName: string, description: string) => {
+            const actionMap: Record<string, { title: string; type: Notification['type'] }> = {
+              'INSERT': { title: 'New Record Created', type: 'success' },
+              'UPDATE': { title: 'Record Updated', type: 'info' },
+              'DELETE': { title: 'Record Deleted', type: 'warning' },
+              'VERIFY': { title: 'Verification Completed', type: 'success' },
+              'CREATE': { title: 'Record Created', type: 'success' },
+              'AUTH': { title: 'Authentication Event', type: 'info' },
+              'ACCESS_DENIED': { title: 'Access Denied', type: 'error' },
+            }
+            
+            const details = actionMap[action] || { title: action.replace('_', ' '), type: 'info' as const }
+            return details
+          }
+
+          const details = getNotificationDetails(log.action, log.table_name, log.description)
+          const timeAgo = getTimeAgo(new Date(log.created_at))
+
+          return {
+            id: log.id,
+            title: details.title,
+            message: log.description || `${log.action} on ${log.table_name}${log.record_id ? ` (ID: ${log.record_id})` : ''}`,
+            type: details.type,
+            time: timeAgo,
+            read: true, // Assume all fetched logs are read
+          }
+        }) || []
+
+        setNotifications(transformedNotifications)
+      } catch (error) {
+        console.error('Error in fetchAuditLogs:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchAuditLogs()
+  }, [])
+
+  const getTimeAgo = (date: Date): string => {
+    const now = new Date()
+    const diff = now.getTime() - date.getTime()
+    const minutes = Math.floor(diff / 60000)
+    const hours = Math.floor(diff / 3600000)
+    const days = Math.floor(diff / 86400000)
+
+    if (minutes < 1) return 'just now'
+    if (minutes < 60) return `${minutes} minute${minutes !== 1 ? 's' : ''} ago`
+    if (hours < 24) return `${hours} hour${hours !== 1 ? 's' : ''} ago`
+    if (days < 7) return `${days} day${days !== 1 ? 's' : ''} ago`
+    
+    return date.toLocaleDateString()
+  }
 
   const unreadCount = notifications.filter(n => !n.read).length
   const filteredNotifications = filter === 'unread' 
@@ -194,7 +218,16 @@ export function NotificationsPanel({ className }: NotificationsPanelProps) {
 
       {/* Notifications List */}
       <div className="space-y-3 max-h-96 overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#3a4254]">
-        {filteredNotifications.length === 0 ? (
+        {loading ? (
+          <div className="text-center py-8">
+            <div className="animate-spin">
+              <svg className="w-8 h-8 text-gray-400 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+            </div>
+            <p className="text-gray-600 text-sm mt-2">Loading activity...</p>
+          </div>
+        ) : filteredNotifications.length === 0 ? (
           <div className="text-center py-8">
             <svg className="w-8 h-8 text-gray-600 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
