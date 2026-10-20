@@ -164,13 +164,13 @@ $$ LANGUAGE plpgsql;
 
 -- ============================================================
 -- Trigger: Auto-detect duplicates on new record creation
--- DISABLED by default - uncomment to enable
+-- ENABLED - automatically detects potential duplicates when new records are created
 -- ============================================================
 
--- CREATE TRIGGER trg_auto_detect_duplicates
---   AFTER INSERT ON criminal_records
---   FOR EACH ROW
---   EXECUTE FUNCTION auto_detect_duplicates();
+CREATE TRIGGER trg_auto_detect_duplicates
+  AFTER INSERT ON criminal_records
+  FOR EACH ROW
+  EXECUTE FUNCTION auto_detect_duplicates();
 
 -- ============================================================
 -- View: Duplicate flags with detailed information

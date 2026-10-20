@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1600 2000" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <!-- Define styles -->
+  <defs>
+    <style>
+      .title { font-size: 36px; font-weight: bold; fill: #1a365d; }
+      .section-title { font-size: 20px; font-weight: bold; fill: #2d3748; }
+      .subtitle { font-size: 14px; font-weight: bold; fill: #3182ce; }
+      .text-normal { font-size: 12px; fill: #2d3748; }
+      .text-small { font-size: 10px; fill: #4a5568; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#1a365d"/>
+    </marker>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1600" height="2000" fill="#f8f9fa"/>
+  
+  <!-- Title -->
+  <text x="800" y="50" class="title" text-anchor="middle">CRDVS - Data Flow Diagram (DFD)</text>
+  <text x="800" y="85" class="text-small" text-anchor="middle">Criminal Record Digital Verification System</text>
+  
+  <!-- LEVEL 0: CONTEXT DIAGRAM -->
+  <text x="50" y="130" class="section-title">Level 0: System Context</text>
+  
+  <!-- Users Entity -->
+  <circle cx="150" cy="200" r="60" fill="#3182ce" stroke="#1a365d" stroke-width="2"/>
+  <text x="150" y="195" class="text-normal" text-anchor="middle" fill="white" font-weight="bold">Users</text>
+  <text x="150" y="212" class="text-small" text-anchor="middle" fill="white">(4 Roles)</text>
+  
+  <!-- Main System -->
+  <rect x="400" y="150" width="300" height="100" fill="#48bb78" stroke="#22543d" stroke-width="2" rx="8"/>
+  <text x="550" y="185" class="subtitle" text-anchor="middle" fill="white">CRDVS System</text>
+  <text x="550" y="210" class="text-normal" text-anchor="middle" fill="white">Criminal Records</text>
+  <text x="550" y="230" class="text-normal" text-anchor="middle" fill="white">Digital Verification</text>
+  
+  <!-- Database Entity -->
+  <circle cx="1250" cy="200" r="70" fill="#ed8936" stroke="#7c2d12" stroke-width="2"/>
+  <text x="1250" y="195" class="text-normal" text-anchor="middle" fill="white" font-weight="bold">PostgreSQL</text>
+  <text x="1250" y="215" class="text-small" text-anchor="middle" fill="white">Supabase DB</text>
+  
+  <!-- Data Flows - Level 0 -->
+  <line x1="210" y1="200" x2="400" y2="200" stroke="#1a365d" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <text x="300" y="190" class="text-small">Requests</text>
+  
+  <line x1="700" y1="200" x2="1180" y2="200" stroke="#1a365d" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <text x="900" y="190" class="text-small">Query/Update</text>
+  
+  <line x1="1180" y1="220" x2="700" y2="220" stroke="#2b6cb0" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <text x="900" y="240" class="text-small" fill="#2b6cb0">Data Response</text>
+  
+  <line x1="400" y1="220" x2="210" y2="220" stroke="#2b6cb0" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <text x="300" y="240" class="text-small" fill="#2b6cb0">Results</text>
+  
+  <!-- LEVEL 1: PROCESSES -->
+  <text x="50" y="320" class="section-title">Level 1: Core Processes</text>
+  
+  <!-- Process 1: Authentication -->
+  <rect x="40" y="350" width="130" height="90" fill="#667eea" stroke="#5a67d8" stroke-width="2" rx="6"/>
+  <text x="105" y="375" class="subtitle" text-anchor="middle" fill="white">1. Auth</text>
+  <text x="105" y="395" class="text-small" text-anchor="middle" fill="white">Login & Session</text>
+  <text x="105" y="410" class="text-small" text-anchor="middle" fill="white">Management</text>
+  
+  <!-- Process 2: Verification -->
+  <rect x="200" y="350" width="130" height="90" fill="#667eea" stroke="#5a67d8" stroke-width="2" rx="6"/>
+  <text x="265" y="375" class="subtitle" text-anchor="middle" fill="white">2. Verify</text>
+  <text x="265" y="395" class="text-small" text-anchor="middle" fill="white">Identity Search</text>
+  <text x="265" y="410" class="text-small" text-anchor="middle" fill="white">& Matching</text>
+  
+  <!-- Process 3: Record Mgmt -->
+  <rect x="360" y="350" width="130" height="90" fill="#667eea" stroke="#5a67d8" stroke-width="2" rx="6"/>
+  <text x="425" y="375" class="subtitle" text-anchor="middle" fill="white">3. Records</text>
+  <text x="425" y="395" class="text-small" text-anchor="middle" fill="white">CRUD</text>
+  <text x="425" y="410" class="text-small" text-anchor="middle" fill="white">Operations</text>
+  
+  <!-- Process 4: Duplicates -->
+  <rect x="520" y="350" width="130" height="90" fill="#667eea" stroke="#5a67d8" stroke-width="2" rx="6"/>
+  <text x="585" y="375" class="subtitle" text-anchor="middle" fill="white">4. Duplicates</text>
+  <text x="585" y="395" class="text-small" text-anchor="middle" fill="white">AI Detection</text>
+  <text x="585" y="410" class="text-small" text-anchor="middle" fill="white">Fuzzy Match</text>
+  
+  <!-- Process 5: Reports -->
+  <rect x="680" y="350" width="130" height="90" fill="#667eea" stroke="#5a67d8" stroke-width="2" rx="6"/>
+  <text x="745" y="375" class="subtitle" text-anchor="middle" fill="white">5. Reports</text>
+  <text x="745" y="395" class="text-small" text-anchor="middle" fill="white">Generation</text>
+  <text x="745" y="410" class="text-small" text-anchor="middle" fill="white">Tamper-Proof</text>
+  
+  <!-- Process 6: Admin -->
+  <rect x="840" y="350" width="130" height="90" fill="#667eea" stroke="#5a67d8" stroke-width="2" rx="6"/>
+  <text x="905" y="375" class="subtitle" text-anchor="middle" fill="white">6. Admin</text>
+  <text x="905" y="395" class="text-small" text-anchor="middle" fill="white">User Mgmt</text>
+  <text x="905" y="410" class="text-small" text-anchor="middle" fill="white">CRUD Users</text>
+  
+  <!-- Process 7: Audit -->
+  <rect x="1000" y="350" width="130" height="90" fill="#667eea" stroke="#5a67d8" stroke-width="2" rx="6"/>
+  <text x="1065" y="375" class="subtitle" text-anchor="middle" fill="white">7. Audit</text>
+  <text x="1065" y="395" class="text-small" text-anchor="middle" fill="white">Logging</text>
+  <text x="1065" y="410" class="text-small" text-anchor="middle" fill="white">Immutable Trail</text>
+  
+  <!-- DATA STORES -->
+  <text x="50" y="500" class="section-title">Data Stores</text>
+  
+  <rect x="40" y="520" width="110" height="70" fill="#f6ad55" stroke="#ed8936" stroke-width="2" rx="4"/>
+  <text x="95" y="545" class="text-normal" text-anchor="middle" font-weight="bold">D1: Profiles</text>
+  <text x="95" y="562" class="text-small" text-anchor="middle">Users, Roles</text>
+  
+  <rect x="170" y="520" width="110" height="70" fill="#f6ad55" stroke="#ed8936" stroke-width="2" rx="4"/>
+  <text x="225" y="545" class="text-normal" text-anchor="middle" font-weight="bold">D2: Nat'l IDs</text>
+  <text x="225" y="562" class="text-small" text-anchor="middle">Identity Ref</text>
+  
+  <rect x="300" y="520" width="110" height="70" fill="#f6ad55" stroke="#ed8936" stroke-width="2" rx="4"/>
+  <text x="355" y="545" class="text-normal" text-anchor="middle" font-weight="bold">D3: Records</text>
+  <text x="355" y="562" class="text-small" text-anchor="middle">Criminal Data</text>
+  
+  <rect x="430" y="520" width="110" height="70" fill="#f6ad55" stroke="#ed8936" stroke-width="2" rx="4"/>
+  <text x="485" y="545" class="text-normal" text-anchor="middle" font-weight="bold">D4: Convictions</text>
+  <text x="485" y="562" class="text-small" text-anchor="middle">Charges</text>
+  
+  <rect x="560" y="520" width="110" height="70" fill="#f6ad55" stroke="#ed8936" stroke-width="2" rx="4"/>
+  <text x="615" y="545" class="text-normal" text-anchor="middle" font-weight="bold">D5: Verifications</text>
+  <text x="615" y="562" class="text-small" text-anchor="middle">Search Log</text>
+  
+  <rect x="690" y="520" width="110" height="70" fill="#f6ad55" stroke="#ed8936" stroke-width="2" rx="4"/>
+  <text x="745" y="545" class="text-normal" text-anchor="middle" font-weight="bold">D6: Duplicates</text>
+  <text x="745" y="562" class="text-small" text-anchor="middle">Flags</text>
+  
+  <rect x="820" y="520" width="110" height="70" fill="#f6ad55" stroke="#ed8936" stroke-width="2" rx="4"/>
+  <text x="875" y="545" class="text-normal" text-anchor="middle" font-weight="bold">D7: Reports</text>
+  <text x="875" y="562" class="text-small" text-anchor="middle">Generated</text>
+  
+  <rect x="950" y="520" width="110" height="70" fill="#f6ad55" stroke="#ed8936" stroke-width="2" rx="4"/>
+  <text x="1005" y="545" class="text-normal" text-anchor="middle" font-weight="bold">D8: Audit Logs</text>
+  <text x="1005" y="562" class="text-small" text-anchor="middle">Immutable</text>
+  
+  <!-- DETAILED DATA FLOWS -->
+  <text x="50" y="640" class="section-title">Data Flows</text>
+  
+  <!-- Flow 1 -->
+  <rect x="40" y="660" width="750" height="140" fill="#f0f4f8" stroke="#3182ce" stroke-width="2" rx="6"/>
+  <text x="60" y="685" class="subtitle" fill="#3182ce">Flow 1: Authentication & Login</text>
+  <text x="60" y="705" class="text-small">1. User submits email/password → Process 1</text>
+  <text x="60" y="722" class="text-small">2. Validates against Supabase Auth</text>
+  <text x="60" y="739" class="text-small">3. Loads D1 (Profiles) for role &amp; permissions</text>
+  <text x="60" y="756" class="text-small">4. Checks is_active status</text>
+  <text x="60" y="773" class="text-small">5. Creates session → Redirect to dashboard</text>
+  <text x="60" y="790" class="text-small">6. Logs login event to D8</text>
+  
+  <!-- Flow 2 -->
+  <rect x="820" y="660" width="750" height="140" fill="#f0f4f8" stroke="#3182ce" stroke-width="2" rx="6"/>
+  <text x="840" y="685" class="subtitle" fill="#3182ce">Flow 2: Identity Verification Search</text>
+  <text x="840" y="705" class="text-small">1. User enters National ID/name → Process 2</text>
+  <text x="840" y="722" class="text-small">2. Applies fuzzy matching algorithm</text>
+  <text x="840" y="739" class="text-small">3. Queries D2 (National IDs) for exact matches</text>
+  <text x="840" y="756" class="text-small">4. Queries D3 (Criminal Records) for fuzzy matches</text>
+  <text x="840" y="773" class="text-small">5. Creates request entry in D5 + logs to D8</text>
+  <text x="840" y="790" class="text-small">6. Returns results to user</text>
+  
+  <!-- Flow 3 -->
+  <rect x="40" y="820" width="750" height="140" fill="#f0f4f8" stroke="#3182ce" stroke-width="2" rx="6"/>
+  <text x="60" y="845" class="subtitle" fill="#3182ce">Flow 3: Criminal Record CRUD</text>
+  <text x="60" y="865" class="text-small">1. Admin/Police submits new/updated record → Process 3</text>
+  <text x="60" y="882" class="text-small">2. Validates data completeness, format &amp; permissions</text>
+  <text x="60" y="899" class="text-small">3. Creates/updates D3 (Criminal Records)</text>
+  <text x="60" y="916" class="text-small">4. Updates D4 (Convictions), triggers repeat offender calc</text>
+  <text x="60" y="933" class="text-small">5. Triggers Process 4 (Duplicate Detection)</text>
+  <text x="60" y="950" class="text-small">6. Records all actions in D8 (Audit Logs)</text>
+  
+  <!-- Flow 4 -->
+  <rect x="820" y="820" width="750" height="140" fill="#f0f4f8" stroke="#3182ce" stroke-width="2" rx="6"/>
+  <text x="840" y="845" class="subtitle" fill="#3182ce">Flow 4: Duplicate Detection (AI)</text>
+  <text x="840" y="865" class="text-small">1. Triggered after record update (Process 4)</text>
+  <text x="840" y="882" class="text-small">2. AI compares against all D3 records</text>
+  <text x="840" y="899" class="text-small">3. Analyzes: name similarity (trigram), DOB, fingerprints</text>
+  <text x="840" y="916" class="text-small">4. If similarity score &gt; 80% → flags as duplicate in D6</text>
+  <text x="840" y="933" class="text-small">5. Admin reviews &amp; resolves (confirmed/false positive)</text>
+  <text x="840" y="950" class="text-small">6. Resolution logged to D8</text>
+  
+  <!-- Flow 5 -->
+  <rect x="40" y="980" width="750" height="120" fill="#f0f4f8" stroke="#3182ce" stroke-width="2" rx="6"/>
+  <text x="60" y="1005" class="subtitle" fill="#3182ce">Flow 5: Report Generation</text>
+  <text x="60" y="1025" class="text-small">1. User requests report for record → Process 5</text>
+  <text x="60" y="1042" class="text-small">2. Creates JSONB snapshot from D3, generates SHA-256 hash</text>
+  <text x="60" y="1059" class="text-small">3. Stores report in D7 with unique ID (RPT-YYYYMMDD-XXXX)</text>
+  <text x="60" y="1076" class="text-small">4. User can download/share report (tamper-evident)</text>
+  
+  <!-- Flow 6 -->
+  <rect x="820" y="980" width="750" height="120" fill="#f0f4f8" stroke="#3182ce" stroke-width="2" rx="6"/>
+  <text x="840" y="1005" class="subtitle" fill="#3182ce">Flow 6: Admin User Management</text>
+  <text x="840" y="1025" class="text-small">1. Admin accesses /admin/users → Process 6</text>
+  <text x="840" y="1042" class="text-small">2. Loads user list from D1 (Profiles)</text>
+  <text x="840" y="1059" class="text-small">3. Creates/updates/deactivates users in D1</text>
+  <text x="840" y="1076" class="text-small">4. All user changes logged to D8</text>
+  
+  <!-- ROLE-BASED ACCESS -->
+  <text x="50" y="1150" class="section-title">Role-Based Access Control (RBAC)</text>
+  
+  <rect x="40" y="1170" width="1520" height="200" fill="#f9fafb" stroke="#3182ce" stroke-width="1" rx="4"/>
+  
+  <!-- Table Header -->
+  <rect x="50" y="1180" width="200" height="30" fill="#3182ce" rx="2"/>
+  <text x="150" y="1202" class="text-small" text-anchor="middle" fill="white" font-weight="bold">Feature</text>
+  
+  <rect x="260" y="1180" width="110" height="30" fill="#3182ce" rx="2"/>
+  <text x="315" y="1202" class="text-small" text-anchor="middle" fill="white" font-weight="bold">Admin</text>
+  
+  <rect x="380" y="1180" width="110" height="30" fill="#3182ce" rx="2"/>
+  <text x="435" y="1202" class="text-small" text-anchor="middle" fill="white" font-weight="bold">Police</text>
+  
+  <rect x="500" y="1180" width="110" height="30" fill="#3182ce" rx="2"/>
+  <text x="555" y="1202" class="text-small" text-anchor="middle" fill="white" font-weight="bold">Court</text>
+  
+  <rect x="620" y="1180" width="110" height="30" fill="#3182ce" rx="2"/>
+  <text x="675" y="1202" class="text-small" text-anchor="middle" fill="white" font-weight="bold">Prison</text>
+  
+  <rect x="740" y="1180" width="800" height="30" fill="#3182ce" rx="2"/>
+  <text x="1140" y="1202" class="text-small" text-anchor="middle" fill="white" font-weight="bold">Processes Involved</text>
+  
+  <!-- Table Rows -->
+  <text x="60" y="1240" class="text-small" font-weight="bold">View Records</text>
+  <text x="315" y="1240" class="text-small" text-anchor="middle">✓</text>
+  <text x="435" y="1240" class="text-small" text-anchor="middle">✓</text>
+  <text x="555" y="1240" class="text-small" text-anchor="middle">✓</text>
+  <text x="675" y="1240" class="text-small" text-anchor="middle">✓</text>
+  <text x="755" y="1240" class="text-small">Process 2, 3</text>
+  
+  <text x="60" y="1270" class="text-small" font-weight="bold">Create Records</text>
+  <text x="315" y="1270" class="text-small" text-anchor="middle">✓</text>
+  <text x="435" y="1270" class="text-small" text-anchor="middle">✓</text>
+  <text x="555" y="1270" class="text-small" text-anchor="middle">✗</text>
+  <text x="675" y="1270" class="text-small" text-anchor="middle">✗</text>
+  <text x="755" y="1270" class="text-small">Process 3, 4</text>
+  
+  <text x="60" y="1300" class="text-small" font-weight="bold">Identity Verify</text>
+  <text x="315" y="1300" class="text-small" text-anchor="middle">✓</text>
+  <text x="435" y="1300" class="text-small" text-anchor="middle">✓</text>
+  <text x="555" y="1300" class="text-small" text-anchor="middle">✓</text>
+  <text x="675" y="1300" class="text-small" text-anchor="middle">✓</text>
+  <text x="755" y="1300" class="text-small">Process 2</text>
+  
+  <text x="60" y="1330" class="text-small" font-weight="bold">Generate Reports</text>
+  <text x="315" y="1330" class="text-small" text-anchor="middle">✓</text>
+  <text x="435" y="1330" class="text-small" text-anchor="middle">✓</text>
+  <text x="555" y="1330" class="text-small" text-anchor="middle">✓</text>
+  <text x="675" y="1330" class="text-small" text-anchor="middle">✓</text>
+  <text x="755" y="1330" class="text-small">Process 5</text>
+  
+  <text x="60" y="1360" class="text-small" font-weight="bold">Manage Duplicates</text>
+  <text x="315" y="1360" class="text-small" text-anchor="middle">✓</text>
+  <text x="435" y="1360" class="text-small" text-anchor="middle">✓</text>
+  <text x="555" y="1360" class="text-small" text-anchor="middle">✗</text>
+  <text x="675" y="1360" class="text-small" text-anchor="middle">✗</text>
+  <text x="755" y="1360" class="text-small">Process 4</text>
+  
+  <!-- SECURITY FEATURES -->
+  <text x="50" y="1420" class="section-title">🔒 Security Features</text>
+  
+  <rect x="40" y="1440" width="750" height="160" fill="#edf2f7" stroke="#22543d" stroke-width="2" rx="6"/>
+  <text x="60" y="1465" class="subtitle" fill="#22543d">Database-Level Security (RLS)</text>
+  <text x="60" y="1485" class="text-small">✓ Row-Level Security: automatic enforcement</text>
+  <text x="60" y="1502" class="text-small">✓ Per-table policies: SELECT, INSERT, UPDATE, DELETE</text>
+  <text x="60" y="1519" class="text-small">✓ Role functions: is_admin(), get_user_role()</text>
+  <text x="60" y="1536" class="text-small">✓ Active user check: is_active_user()</text>
+  <text x="60" y="1553" class="text-small">✓ Deactivated accounts blocked immediately</text>
+  <text x="60" y="1570" class="text-small">✓ Cannot be bypassed in application code</text>
+  <text x="60" y="1587" class="text-small">✓ Transparent to users (automatic)</text>
+  
+  <rect x="820" y="1440" width="750" height="160" fill="#edf2f7" stroke="#22543d" stroke-width="2" rx="6"/>
+  <text x="840" y="1465" class="subtitle" fill="#22543d">Audit &amp; Compliance</text>
+  <text x="840" y="1485" class="text-small">✓ Immutable audit logs (D8): no updates/deletes allowed</text>
+  <text x="840" y="1502" class="text-small">✓ All actions logged: CREATE, READ, UPDATE, DELETE, LOGIN</text>
+  <text x="840" y="1519" class="text-small">✓ Metadata captured: user, IP, user agent, timestamp</text>
+  <text x="840" y="1536" class="text-small">✓ Snapshots stored: old &amp; new values (for updates)</text>
+  <text x="840" y="1553" class="text-small">✓ Tamper-proof reports: SHA-256 hash included</text>
+  <text x="840" y="1570" class="text-small">✓ Account status tracking: last_login_at</text>
+  <text x="840" y="1587" class="text-small">✓ Compliance-ready for regulatory audits</text>
+  
+  <!-- PROCESS-DATA MAPPING -->
+  <text x="50" y="1650" class="section-title">Process-to-Data Store Mapping</text>
+  
+  <text x="60" y="1675" class="text-small"><tspan font-weight="bold">Process 1 (Auth):</tspan> ↔ D1 (Profiles)</text>
+  <text x="60" y="1695" class="text-small"><tspan font-weight="bold">Process 2 (Verify):</tspan> ↔ D2, D3, D5 | Reads: D1</text>
+  <text x="60" y="1715" class="text-small"><tspan font-weight="bold">Process 3 (Records):</tspan> ↔ D3, D4 | Reads: D1</text>
+  <text x="60" y="1735" class="text-small"><tspan font-weight="bold">Process 4 (Duplicates):</tspan> ↔ D6 | Reads: D3, D4</text>
+  <text x="60" y="1755" class="text-small"><tspan font-weight="bold">Process 5 (Reports):</tspan> ↔ D7 | Reads: D3, D4</text>
+  <text x="60" y="1775" class="text-small"><tspan font-weight="bold">Process 6 (Admin):</tspan> ↔ D1 (admin only)</text>
+  <text x="60" y="1795" class="text-small"><tspan font-weight="bold">Process 7 (Audit):</tspan> ↔ D8 (append-only)</text>
+  
+  <!-- KEY STATISTICS -->
+  <text x="50" y="1850" class="section-title">System Statistics</text>
+  
+  <rect x="40" y="1870" width="1520" height="100" fill="#f0f4f8" stroke="#3182ce" stroke-width="1" rx="4"/>
+  <text x="60" y="1895" class="text-small"><tspan font-weight="bold">Data Tables:</tspan> 9 tables | <tspan font-weight="bold">Enums:</tspan> 8 types | <tspan font-weight="bold">Indexes:</tspan> 20+ optimized</text>
+  <text x="60" y="1915" class="text-small"><tspan font-weight="bold">Processes:</tspan> 7 core flows | <tspan font-weight="bold">API Endpoints:</tspan> 15+ Next.js routes</text>
+  <text x="60" y="1935" class="text-small"><tspan font-weight="bold">RLS Policies:</tspan> 35+ policies | <tspan font-weight="bold">Security:</tspan> Row-level, role-based, audit-logged</text>
+  <text x="60" y="1955" class="text-small"><tspan font-weight="bold">Users:</tspan> 4 roles (Admin, Police, Court, Prison) | <tspan font-weight="bold">Auth:</tspan> Supabase Auth + Sessions</text>
+</svg>

@@ -17,7 +17,7 @@ export async function DashboardStats({ userRole }: { userRole: UserRole }) {
     supabase.from('duplicate_flags').select('*', { count: 'exact', head: true }).eq('flag_status', 'pending_review'),
   ])
 
-  const stats = [
+  const baseStats = [
     {
       label: 'Total Records',
       value: totalRecords ?? 0,
@@ -36,13 +36,20 @@ export async function DashboardStats({ userRole }: { userRole: UserRole }) {
       icon: 'clock',
       color: 'yellow',
     },
-    {
-      label: 'Duplicate Flags',
-      value: duplicateFlags ?? 0,
-      icon: 'flag',
-      color: 'red',
-    },
   ]
+
+  // Only show Duplicate Flags for admins
+  const stats = userRole === 'administrator' 
+    ? [
+        ...baseStats,
+        {
+          label: 'Duplicate Flags',
+          value: duplicateFlags ?? 0,
+          icon: 'flag',
+          color: 'red',
+        },
+      ]
+    : baseStats
 
   const icons: Record<string, JSX.Element> = {
     folder: (

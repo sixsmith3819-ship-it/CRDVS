@@ -42,7 +42,7 @@ const navItems: NavItem[] = [
     label: "Duplicate Flags",
     href: "/dashboard/duplicates",
     icon: "flag",
-    roles: ["police_officer"],
+    roles: ["administrator"],
   },
   {
     label: "Users",

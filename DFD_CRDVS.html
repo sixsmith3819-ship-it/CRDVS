@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRDVS - Data Flow Diagram</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: #1a365d;
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2d3748;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #3182ce;
+            padding-bottom: 10px;
+        }
+        
+        .level-0 {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 40px 0;
+            gap: 20px;
+        }
+        
+        .entity {
+            background: #3182ce;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            min-width: 150px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        
+        .system {
+            background: #48bb78;
+            font-size: 16px;
+            padding: 30px;
+            min-width: 220px;
+        }
+        
+        .database {
+            background: #ed8936;
+        }
+        
+        .arrow {
+            flex: 1;
+            text-align: center;
+            color: #2d3748;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        
+        .processes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .process {
+            background: #667eea;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        
+        .process-number {
+            display: inline-block;
+            background: rgba(0,0,0,0.2);
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-right: 5px;
+        }
+        
+        .data-stores {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .datastore {
+            background: #f6ad55;
+            border: 2px solid #ed8936;
+            color: #2d3748;
+            padding: 20px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+        
+        .datastore-label {
+            font-size: 10px;
+            color: #7c2d12;
+            margin-top: 5px;
+        }
+        
+        .flow-item {
+            background: #f0f4f8;
+            border-left: 4px solid #3182ce;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .flow-title {
+            font-weight: bold;
+            color: #3182ce;
+            margin-bottom: 8px;
+        }
+        
+        .flow-steps {
+            margin-left: 20px;
+        }
+        
+        .flow-steps li {
+            margin: 5px 0;
+            color: #2d3748;
+            font-size: 13px;
+        }
+        
+        .role-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        
+        .role-table th {
+            background: #3182ce;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        .role-table td {
+            border-bottom: 1px solid #e2e8f0;
+            padding: 12px;
+            background: #f7fafc;
+        }
+        
+        .role-table tr:hover {
+            background: #edf2f7;
+        }
+        
+        .check {
+            color: #22543d;
+            font-weight: bold;
+        }
+        
+        .cross {
+            color: #742a2a;
+        }
+        
+        .security-box {
+            background: #edf2f7;
+            border-left: 5px solid #22543d;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .security-title {
+            font-weight: bold;
+            color: #22543d;
+            margin-bottom: 10px;
+        }
+        
+        .security-item {
+            margin: 8px 0;
+            color: #2d3748;
+        }
+        
+        .color-legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .legend-color {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            border: 2px solid #2d3748;
+        }
+        
+        .footer {
+            text-align: center;
+            color: #718096;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">CRDVS - Data Flow Diagram (DFD)</div>
+        
+        <!-- LEVEL 0: Context Diagram -->
+        <div class="section-title">📊 Level 0: System Context Diagram</div>
+        <div class="level-0">
+            <div class="entity">
+                <div>👥 Users</div>
+                <div style="font-size: 11px; margin-top: 5px;">4 Roles:</div>
+                <div style="font-size: 10px;">• Admin</div>
+                <div style="font-size: 10px;">• Police</div>
+                <div style="font-size: 10px;">• Court</div>
+                <div style="font-size: 10px;">• Prison</div>
+            </div>
+            <div class="arrow">
+                Requests<br/>↓↑<br/>Results
+            </div>
+            <div class="system">
+                <div>🔐 CRDVS</div>
+                <div style="font-size: 13px; margin-top: 5px;">Criminal Record</div>
+                <div style="font-size: 13px;">Digital Verification</div>
+                <div style="font-size: 13px;">System</div>
+            </div>
+            <div class="arrow">
+                Query/Update<br/>↓↑<br/>Data
+            </div>
+            <div class="entity database">
+                <div>🗄️ PostgreSQL</div>
+                <div style="font-size: 11px; margin-top: 5px;">Supabase</div>
+            </div>
+        </div>
+        
+        <!-- LEVEL 1: Processes -->
+        <div class="section-title">⚙️ Level 1: Core Processes</div>
+        <div class="processes-grid">
+            <div class="process">
+                <div><span class="process-number">1</span></div>
+                <div>Authentication</div>
+                <div style="font-size: 11px; margin-top: 5px;">Login & Session</div>
+            </div>
+            <div class="process">
+                <div><span class="process-number">2</span></div>
+                <div>Identity Verification</div>
+                <div style="font-size: 11px; margin-top: 5px;">Search & Match</div>
+            </div>
+            <div class="process">
+                <div><span class="process-number">3</span></div>
+                <div>Record Management</div>
+                <div style="font-size: 11px; margin-top: 5px;">CRUD Operations</div>
+            </div>
+            <div class="process">
+                <div><span class="process-number">4</span></div>
+                <div>Duplicate Detection</div>
+                <div style="font-size: 11px; margin-top: 5px;">AI Fuzzy Match</div>
+            </div>
+            <div class="process">
+                <div><span class="process-number">5</span></div>
+                <div>Report Generation</div>
+                <div style="font-size: 11px; margin-top: 5px;">Tamper-Proof</div>
+            </div>
+            <div class="process">
+                <div><span class="process-number">6</span></div>
+                <div>User Management</div>
+                <div style="font-size: 11px; margin-top: 5px;">Admin Only</div>
+            </div>
+            <div class="process">
+                <div><span class="process-number">7</span></div>
+                <div>Audit Logging</div>
+                <div style="font-size: 11px; margin-top: 5px;">Immutable Trail</div>
+            </div>
+        </div>
+        
+        <!-- Data Stores -->
+        <div class="section-title">💾 Data Stores</div>
+        <div class="data-stores">
+            <div class="datastore">
+                <div>D1: Profiles</div>
+                <div class="datastore-label">Users, Roles, Permissions</div>
+            </div>
+            <div class="datastore">
+                <div>D2: National IDs</div>
+                <div class="datastore-label">Identity Reference Data</div>
+            </div>
+            <div class="datastore">
+                <div>D3: Criminal Records</div>
+                <div class="datastore-label">Core Record Data</div>
+            </div>
+            <div class="datastore">
+                <div>D4: Convictions</div>
+                <div class="datastore-label">Charges & Sentences</div>
+            </div>
+            <div class="datastore">
+                <div>D5: Verification Requests</div>
+                <div class="datastore-label">Search Log History</div>
+            </div>
+            <div class="datastore">
+                <div>D6: Duplicate Flags</div>
+                <div class="datastore-label">Potential Duplicates</div>
+            </div>
+            <div class="datastore">
+                <div>D7: Reports</div>
+                <div class="datastore-label">Generated Verification Reports</div>
+            </div>
+            <div class="datastore">
+                <div>D8: Audit Logs</div>
+                <div class="datastore-label">Immutable Activity Trail</div>
+            </div>
+        </div>
+        
+        <!-- Data Flows -->
+        <div class="section-title">🔄 Key Data Flows</div>
+        
+        <div class="flow-item">
+            <div class="flow-title">Flow 1: Authentication & Login</div>
+            <ul class="flow-steps">
+                <li>User enters credentials (email/password)</li>
+                <li>Process 1 validates against Supabase Auth</li>
+                <li>Loads D1 (Profiles) to retrieve role & permissions</li>
+                <li>Checks is_active status for account validity</li>
+                <li>Session created; user redirected to dashboard</li>
+                <li>Logs login event to D8 (Audit Logs)</li>
+            </ul>
+        </div>
+        
+        <div class="flow-item">
+            <div class="flow-title">Flow 2: Identity Verification Search</div>
+            <ul class="flow-steps">
+                <li>User submits National ID or name for verification</li>
+                <li>Process 2 applies fuzzy matching algorithm</li>
+                <li>Queries D2 (National IDs) for exact matches</li>
+                <li>Queries D3 (Criminal Records) for fuzzy matches</li>
+                <li>Returns exact matches (confidence 100%)</li>
+                <li>Returns fuzzy matches (confidence 75%+)</li>
+                <li>Creates verification request entry in D5</li>
+                <li>Logs verification action to D8</li>
+            </ul>
+        </div>
+        
+        <div class="flow-item">
+            <div class="flow-title">Flow 3: Criminal Record Creation/Update</div>
+            <ul class="flow-steps">
+                <li>Admin/Police submits new record or update</li>
+                <li>Process 3 validates data completeness & format</li>
+                <li>Enforces role-based permissions via RLS</li>
+                <li>Creates/updates entry in D3 (Criminal Records)</li>
+                <li>Updates conviction count in D4 (Convictions)</li>
+                <li>Triggers Process 4 (Duplicate Detection)</li>
+                <li>Records action in D8 (Audit Logs)</li>
+            </ul>
+        </div>
+        
+        <div class="flow-item">
+            <div class="flow-title">Flow 4: Duplicate Detection & Resolution</div>
+            <ul class="flow-steps">
+                <li>Triggered after record creation/update (Process 3)</li>
+                <li>AI algorithm compares against all D3 records</li>
+                <li>Analyzes name similarity (trigram matching)</li>
+                <li>Checks DOB and fingerprint matches</li>
+                <li>Calculates overall similarity score (0-100)</li>
+                <li>If score > 80%: flags as potential duplicate in D6</li>
+                <li>Admin reviews flag and resolves (confirmed/false positive)</li>
+                <li>Logs resolution to D8</li>
+            </ul>
+        </div>
+        
+        <div class="flow-item">
+            <div class="flow-title">Flow 5: Report Generation</div>
+            <ul class="flow-steps">
+                <li>User requests report for a criminal record</li>
+                <li>Process 5 creates JSONB snapshot of record from D3</li>
+                <li>Generates SHA-256 hash for tamper detection</li>
+                <li>Stores report in D7 (Verification Reports)</li>
+                <li>Assigns unique report ID (RPT-YYYYMMDD-XXXX)</li>
+                <li>Includes expiration timestamp (optional)</li>
+                <li>User can download/view/share report</li>
+            </ul>
+        </div>
+        
+        <div class="flow-item">
+            <div class="flow-title">Flow 6: Admin User Management</div>
+            <ul class="flow-steps">
+                <li>Admin accesses /admin/users dashboard</li>
+                <li>Process 6 loads all user profiles from D1</li>
+                <li>Admin creates new user or updates existing</li>
+                <li>Validates email uniqueness and format</li>
+                <li>Inserts/updates entry in D1 (Profiles)</li>
+                <li>If creating: assigns role & initial permissions</li>
+                <li>If deactivating: sets is_active = false</li>
+                <li>Action logged to D8</li>
+            </ul>
+        </div>
+        
+        <!-- Role-Based Access Control -->
+        <div class="section-title">👥 Role-Based Access Control (RBAC)</div>
+        <table class="role-table">
+            <thead>
+                <tr>
+                    <th>Feature / Permission</th>
+                    <th style="text-align: center;">Admin</th>
+                    <th style="text-align: center;">Police</th>
+                    <th style="text-align: center;">Court</th>
+                    <th style="text-align: center;">Prison</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>View Records</strong></td>
+                    <td style="text-align: center;"><span class="check">✓</span></td>
+                    <td style="text-align: center;"><span class="check">✓</span></td>
+                    <td style="text-align: center;"><span class="check">✓</span></td>
+                    <td style="text-align: center;"><span class="check">✓</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Create Records</strong></td>
+                    <td style="text-align: center;"><span class="check">✓</span></td>
+                    <td style="text-align: center;"><span class="check">✓</span></td>
+                    <td style="text-align: center;"><span class="cross">✗</span></td>
+                    <td style="text-align: center;"><span class="cross">✗</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Update Records</strong></td>
+                    <td style="text-align: center;"><span class="check">✓</span></td>
+                    <td style="text-align: center;"><span class="check">✓</span></td>
+                    <td style="text-align: center;">Limited</td>
+                    <td style="text-align: center;"><span class="cross">✗</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Identity Verification</strong></td>
+                    <td style="text-align: center;"><span class="check">✓</span></td>
+                    <td style="text-align: center;"><span class="check">✓</span></td>
+                    <td style="text-align: center;"><span class="check">✓</span></td>
+                    <td style="text-align: center;"><span class="check">✓</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Generate Reports</strong></td>
+                    <td style="text-align: center;"><span class="check">✓</span></td>
+                    <td style="text-align: center;"><span class="check">✓</span></td>
+                    <td style="text-align: center;"><span class="check">✓</span></td>
+                    <td style="text-align: center;"><span class="check">✓</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Manage Duplicates</strong></td>
+                    <td style="text-align: center;"><span class="check">✓</span></td>
+                    <td style="text-align: center;"><span class="check">✓</span></td>
+                    <td style="text-align: center;"><span class="cross">✗</span></td>
+                    <td style="text-align: center;"><span class="cross">✗</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Manage Users</strong></td>
+                    <td style="text-align: center;"><span class="check">✓</span></td>
+                    <td style="text-align: center;"><span class="cross">✗</span></td>
+                    <td style="text-align: center;"><span class="cross">✗</span></td>
+                    <td style="text-align: center;"><span class="cross">✗</span></td>
+                </tr>
+                <tr>
+                    <td><strong>View Audit Logs</strong></td>
+                    <td style="text-align: center;"><span class="check">✓</span></td>
+                    <td style="text-align: center;"><span class="cross">✗</span></td>
+                    <td style="text-align: center;"><span class="cross">✗</span></td>
+                    <td style="text-align: center;"><span class="cross">✗</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Edit Convictions</strong></td>
+                    <td style="text-align: center;"><span class="check">✓</span></td>
+                    <td style="text-align: center;"><span class="check">✓</span></td>
+                    <td style="text-align: center;"><span class="check">✓</span></td>
+                    <td style="text-align: center;"><span class="cross">✗</span></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- Security Features -->
+        <div class="section-title">🔒 Security Features & Enforcement</div>
+        <div class="security-box">
+            <div class="security-title">Database-Level Security (Row-Level Security - RLS)</div>
+            <div class="security-item">✓ <strong>Automatic enforcement</strong> - Cannot be bypassed in code</div>
+            <div class="security-item">✓ <strong>Per-table policies</strong> - SELECT, INSERT, UPDATE, DELETE</div>
+            <div class="security-item">✓ <strong>Role-based access</strong> - is_admin() and get_user_role() functions</div>
+            <div class="security-item">✓ <strong>Active user check</strong> - is_active_user() prevents deactivated account access</div>
+        </div>
+        
+        <div class="security-box">
+            <div class="security-title">Audit & Compliance</div>
+            <div class="security-item">✓ <strong>Immutable audit logs</strong> - D8 table: no updates/deletes allowed</div>
+            <div class="security-item">✓ <strong>All actions logged</strong> - CREATE, READ, UPDATE, DELETE, LOGIN, LOGOUT</div>
+            <div class="security-item">✓ <strong>Metadata captured</strong> - User ID, IP address, user agent, timestamp</div>
+            <div class="security-item">✓ <strong>Snapshot storage</strong> - Old and new values stored for updates</div>
+            <div class="security-item">✓ <strong>Tamper detection</strong> - Reports include SHA-256 hash</div>
+        </div>
+        
+        <div class="security-box">
+            <div class="security-title">Session & Authentication</div>
+            <div class="security-item">✓ <strong>Supabase Auth</strong> - Email/password with secure session management</div>
+            <div class="security-item">✓ <strong>Account status enforcement</strong> - is_active check on every request</div>
+            <div class="security-item">✓ <strong>Session protection</strong> - Middleware protects all routes</div>
+            <div class="security-item">✓ <strong>Auto-redirect</strong> - Unauthenticated users redirected to login</div>
+        </div>
+        
+        <!-- API Endpoints Summary -->
+        <div class="section-title">🔗 Key API Endpoints (Next.js App Router)</div>
+        <div style="background: #f7fafc; padding: 20px; border-radius: 6px; border-left: 4px solid #3182ce;">
+            <div><strong>Authentication:</strong> POST /api/auth/login, POST /api/auth/logout</div>
+            <div><strong>User Management:</strong> POST /api/admin/users, PATCH /api/admin/users/[id]</div>
+            <div><strong>Identity Verification:</strong> POST /api/verify, GET /api/records (search)</div>
+            <div><strong>Records:</strong> POST /api/records, GET /api/records/[id], PATCH /api/records/[id]</div>
+            <div><strong>Duplicates:</strong> GET /api/duplicates, PATCH /api/duplicates/[id]</div>
+            <div><strong>Reports:</strong> POST /api/reports, GET /api/reports/[id]</div>
+            <div><strong>Audit:</strong> GET /api/audit (admin only)</div>
+        </div>
+        
+        <!-- Process-Data Mapping -->
+        <div class="section-title">📋 Process-to-Data Store Mapping</div>
+        <div style="background: #f7fafc; padding: 20px; border-radius: 6px; border-left: 4px solid #667eea;">
+            <div><strong>Process 1 (Authentication):</strong> ↔ D1 (Profiles)</div>
+            <div><strong>Process 2 (Verification):</strong> ↔ D2, D3, D5 | Reads: D1</div>
+            <div><strong>Process 3 (Record Mgmt):</strong> ↔ D3, D4 | Reads: D1</div>
+            <div><strong>Process 4 (Duplicates):</strong> ↔ D6 | Reads: D3, D4</div>
+            <div><strong>Process 5 (Reports):</strong> ↔ D7 | Reads: D3, D4</div>
+            <div><strong>Process 6 (User Mgmt):</strong> ↔ D1 (admin only)</div>
+            <div><strong>Process 7 (Audit):</strong> ↔ D8 (append-only)</div>
+        </div>
+        
+        <div class="footer">
+            <p>CRDVS Data Flow Diagram - Generated for System Analysis & Documentation</p>
+            <p>For Supabase Migrations: <code>/supabase/migrations/001_initial_schema.sql</code></p>
+        </div>
+    </div>
+</body>
+</html>
