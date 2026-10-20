@@ -198,7 +198,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               disabled && 'cursor-not-allowed opacity-50',
               className
             )}
-            style={{ backgroundColor: '#252d48' }}
+            style={{ backgroundColor: '#f3f4f6' }}
             {...rest}
           />
 
