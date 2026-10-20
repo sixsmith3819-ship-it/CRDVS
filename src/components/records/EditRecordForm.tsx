@@ -55,11 +55,12 @@ export function EditRecordForm({ recordId, recordData }: EditRecordFormProps) {
         body: JSON.stringify(formData)
       })
 
-      const data = await response.json()
-
       if (!response.ok) {
+        const data = await response.json()
         throw new Error(data.error || 'Failed to update record')
       }
+
+      const data = await response.json()
 
       // Success - redirect back to record
       router.push(`/dashboard/records/${recordId}`)
