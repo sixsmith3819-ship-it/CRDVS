@@ -1,6 +1,5 @@
 ﻿import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import { QuickActions } from '@/components/dashboard/QuickActions'
 import { NotificationsPanel } from '@/components/dashboard/NotificationsPanel'
 import { GlassCard } from '@/components/dashboard/GlassCard'
 import { Container } from '@/components/layout/Container'
@@ -100,12 +99,6 @@ export default async function DashboardPage() {
             </div>
           </GlassCard>
         </div>
-      </div>
-
-      {/* Quick Actions */}
-      <div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-6">Quick Actions</h2>
-        <QuickActions userRole={(profile as any)?.role} />
       </div>
 
       {/* Recent Activity & Notifications */}
