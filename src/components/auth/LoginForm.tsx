@@ -12,8 +12,6 @@ export function LoginForm() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [showPassword, setShowPassword] = useState(false)
-  const [rememberMe, setRememberMe] = useState(false)
-  const [trustDevice, setTrustDevice] = useState(false)
   const [shake, setShake] = useState(false)
   const [deviceInfo, setDeviceInfo] = useState({
     browser: 'Unknown',
@@ -349,34 +347,7 @@ export function LoginForm() {
               )}
               disabled={loading}
             />
-            <span className="ml-2 text-sm text-[#a0a9c9]">Keep me signed in for 7 days</span>
           </label>
-
-          {/* Trust Device */}
-          <label className="flex items-start gap-2">
-            <input
-              type="checkbox"
-              checked={trustDevice}
-              onChange={(e) => setTrustDevice(e.target.checked)}
-              className={cn(
-                "w-4 h-4 rounded border-2 transition-all duration-200 mt-0.5",
-                "focus:ring-2 focus:ring-offset-2 focus:ring-offset-transparent",
-                trustDevice 
-                  ? "bg-[#7c3aed] border-[#7c3aed] text-white"
-                  : "bg-transparent border-[#3a4254]",
-                "focus:border-[#7c3aed] focus:ring-[#7c3aed]"
-              )}
-              disabled={loading}
-            />
-            <div className="flex-1">
-              <span className="text-sm text-[#a0a9c9]">Trust this device for 30 days</span>
-              <div className="text-xs text-[#6b7280] mt-1 leading-relaxed">
-                Skip verification for future sign-ins from this {deviceInfo.browser} browser on {deviceInfo.os}. 
-                Only use on personal devices.
-              </div>
-            </div>
-          </label>
-        </div>
 
         <div className="flex items-center justify-end">
           <a 
