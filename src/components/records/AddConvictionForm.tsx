@@ -63,11 +63,12 @@ export function AddConvictionForm({ recordId, recordData }: AddConvictionFormPro
         })
       })
 
-      const data = await response.json()
-
       if (!response.ok) {
+        const data = await response.json()
         throw new Error(data.error || 'Failed to create conviction')
       }
+
+      const data = await response.json()
 
       // Success - redirect back to record
       router.push(`/dashboard/records/${recordId}`)
