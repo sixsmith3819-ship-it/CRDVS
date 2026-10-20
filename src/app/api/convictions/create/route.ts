@@ -31,6 +31,8 @@ export async function POST(request: NextRequest) {
       criminalRecordId,
       caseNumber,
       offenseCategory,
+      offenseDescription,
+      courtName,
       chargeDate,
       convictionDate,
       verdict,
@@ -38,9 +40,9 @@ export async function POST(request: NextRequest) {
     } = body
 
     // Validation
-    if (!criminalRecordId || !caseNumber || !chargeDate) {
+    if (!criminalRecordId || !caseNumber || !offenseDescription || !courtName || !chargeDate) {
       return NextResponse.json(
-        { error: 'Missing required fields: criminalRecordId, caseNumber, chargeDate' },
+        { error: 'Missing required fields: criminalRecordId, caseNumber, offenseDescription, courtName, chargeDate' },
         { status: 400 }
       )
     }
@@ -53,6 +55,8 @@ export async function POST(request: NextRequest) {
           criminal_record_id: criminalRecordId,
           case_number: caseNumber,
           offense_category: offenseCategory,
+          offense_description: offenseDescription,
+          court_name: courtName,
           charge_date: chargeDate,
           conviction_date: convictionDate,
           verdict,
