@@ -283,7 +283,7 @@ export function VerificationForm({ userRole, userId, className }: VerificationFo
 
               <Input
                 label="Full Name"
-                placeholder="e.g., John Doe"
+                placeholder="e.g., Enter full name"
                 value={formData.fullName}
                 onChange={(e) => handleInputChange('fullName', e.target.value)}
                 error={validationErrors.fullName}
