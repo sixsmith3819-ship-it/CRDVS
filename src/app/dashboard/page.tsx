@@ -1,5 +1,6 @@
 ﻿import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { QuickActions } from '@/components/dashboard/QuickActions'
 import { NotificationsPanel } from '@/components/dashboard/NotificationsPanel'
 import { GlassCard } from '@/components/dashboard/GlassCard'
 import { Container } from '@/components/layout/Container'
@@ -100,6 +101,14 @@ export default async function DashboardPage() {
           </GlassCard>
         </div>
       </div>
+
+      {/* Quick Actions - Show for court officers and other roles, but not for admins */}
+      {(profile as any)?.role !== 'administrator' && (
+        <div>
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">Quick Actions</h2>
+          <QuickActions userRole={(profile as any)?.role} />
+        </div>
+      )}
 
       {/* Recent Activity & Notifications */}
       <div>
