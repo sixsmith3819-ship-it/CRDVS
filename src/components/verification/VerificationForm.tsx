@@ -386,6 +386,7 @@ export function VerificationForm({ userRole, userId, className }: VerificationFo
               variant="secondary"
               onClick={handleClear}
               disabled={loading}
+              className="bg-gray-800 text-white hover:bg-gray-900"
             >
               Clear Form
             </Button>
