@@ -47,6 +47,14 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Validate case number format: CASE-YYYY-DDDDD
+    if (!/^CASE-\d{4}-\d{5}$/.test(caseNumber)) {
+      return NextResponse.json(
+        { error: 'Invalid case number format. Must be CASE-YYYY-DDDDD (e.g., CASE-2026-00123)' },
+        { status: 400 }
+      )
+    }
+
     // Create conviction
     const { data: conviction, error } = await supabase
       .from('convictions')

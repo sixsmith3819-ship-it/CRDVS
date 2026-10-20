@@ -43,6 +43,11 @@ export function AddConvictionForm({ recordId, recordData }: AddConvictionFormPro
       setError('Case number is required')
       return
     }
+    // Validate case number format: CASE-YYYY-DDDDD
+    if (!/^CASE-\d{4}-\d{5}$/.test(formData.caseNumber)) {
+      setError('Case number must follow format: CASE-YYYY-DDDDD (e.g., CASE-2026-00123)')
+      return
+    }
     if (!formData.offenseDescription.trim()) {
       setError('Offense description is required')
       return
@@ -133,11 +138,13 @@ export function AddConvictionForm({ recordId, recordData }: AddConvictionFormPro
             name="caseNumber"
             value={formData.caseNumber}
             onChange={handleChange}
-            placeholder="e.g., CASE-2023-0001"
+            placeholder="CASE-2026-00123"
+            pattern="^CASE-\d{4}-\d{5}$"
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             disabled={loading}
             required
           />
+          <p className="text-xs text-gray-500 mt-1">Format: CASE-YYYY-DDDDD (e.g., CASE-2026-00123)</p>
         </div>
 
         <div>
