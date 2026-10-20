@@ -13,11 +13,6 @@ export function LoginForm() {
   const [error, setError] = useState<string | null>(null)
   const [showPassword, setShowPassword] = useState(false)
   const [shake, setShake] = useState(false)
-  const [deviceInfo, setDeviceInfo] = useState({
-    browser: 'Unknown',
-    os: 'Unknown',
-    lastLogin: null as string | null
-  })
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -32,43 +27,8 @@ export function LoginForm() {
 
   // Get device information
   useEffect(() => {
-    const getBrowserInfo = () => {
-      const userAgent = navigator.userAgent
-      let browser = 'Unknown'
-      let os = 'Unknown'
-
-      // Detect browser
-      if (userAgent.includes('Chrome')) browser = 'Chrome'
-      else if (userAgent.includes('Firefox')) browser = 'Firefox'
-      else if (userAgent.includes('Safari')) browser = 'Safari'
-      else if (userAgent.includes('Edge')) browser = 'Edge'
-
-      // Detect OS
-      if (userAgent.includes('Windows')) os = 'Windows'
-      else if (userAgent.includes('Mac')) os = 'macOS'
-      else if (userAgent.includes('Linux')) os = 'Linux'
-      else if (userAgent.includes('Android')) os = 'Android'
-      else if (userAgent.includes('iOS')) os = 'iOS'
-
-      return { browser, os }
-    }
-
-    const info = getBrowserInfo()
-    setDeviceInfo(prev => ({ ...prev, ...info }))
-
-    // Check for last login info from localStorage
-    const lastLogin = localStorage.getItem('crdvs_last_login')
-    if (lastLogin) {
-      setDeviceInfo(prev => ({ ...prev, lastLogin }))
-    }
-  }, [])
-
-  // Reset shake animation after it completes
-  useEffect(() => {
-    if (shake) {
-      const timer = setTimeout(() => setShake(false), 500)
-      return () => clearTimeout(timer)
-    }
+    const timer = setTimeout(() => setShake(false), 500)
+    return () => clearTimeout(timer)
   }, [shake])
 
   const validateEmail = (email: string) => {
@@ -211,37 +171,6 @@ export function LoginForm() {
             <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
             </svg>
-          </div>
-          
-          <div className="flex-1 min-w-0">
-            <div className="text-xs text-[#a0a9c9] mb-2">
-              <strong className="text-white">Device Information</strong>
-            </div>
-            <div className="space-y-1 text-xs text-[#6b7280]">
-              <div className="flex items-center justify-between">
-                <span>Browser:</span>
-                <span className="text-[#a0a9c9]">{deviceInfo.browser}</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span>Operating System:</span>
-                <span className="text-[#a0a9c9]">{deviceInfo.os}</span>
-              </div>
-              {deviceInfo.lastLogin && (
-                <div className="flex items-center justify-between">
-                  <span>Last Sign In:</span>
-                  <span className="text-[#a0a9c9]">
-                    {new Date(deviceInfo.lastLogin).toLocaleDateString()}
-                  </span>
-                </div>
-              )}
-              <div className="flex items-center justify-between">
-                <span>Connection:</span>
-                <div className="flex items-center gap-1">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="text-green-400">Secure (TLS 1.3)</span>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
