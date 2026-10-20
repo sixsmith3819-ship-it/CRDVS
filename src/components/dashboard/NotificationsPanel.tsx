@@ -147,21 +147,21 @@ export function NotificationsPanel({ className }: NotificationsPanelProps) {
         <div className="flex items-center gap-3">
           <h3 className="text-lg font-semibold text-gray-900">Recent Activity</h3>
           {unreadCount > 0 && (
-            <div className="w-6 h-6 rounded-full bg-[#14b8a6] flex items-center justify-center">
-              <span className="text-xs font-bold text-gray-900">{unreadCount}</span>
+            <div className="w-6 h-6 rounded-full bg-red-500 flex items-center justify-center shadow-sm">
+              <span className="text-xs font-bold text-white">{unreadCount}</span>
             </div>
           )}
         </div>
 
         <div className="flex items-center gap-2">
           {/* Filter Toggle */}
-          <div className="flex rounded-lg" style={{ backgroundColor: colors.surface }}>
+          <div className="flex rounded-lg bg-gray-200">
             <button
               onClick={() => setFilter('all')}
               className={cn(
                 "px-3 py-1 text-xs font-medium rounded-md transition-all duration-200",
                 filter === 'all'
-                  ? "bg-[#14b8a6] text-gray-900 shadow-sm"
+                  ? "bg-teal-500 text-white shadow-sm"
                   : "text-gray-700 hover:text-gray-900"
               )}
             >
@@ -172,7 +172,7 @@ export function NotificationsPanel({ className }: NotificationsPanelProps) {
               className={cn(
                 "px-3 py-1 text-xs font-medium rounded-md transition-all duration-200",
                 filter === 'unread'
-                  ? "bg-[#14b8a6] text-gray-900 shadow-sm"
+                  ? "bg-teal-500 text-white shadow-sm"
                   : "text-gray-700 hover:text-gray-900"
               )}
             >
@@ -211,14 +211,9 @@ export function NotificationsPanel({ className }: NotificationsPanelProps) {
                 className={cn(
                   "p-4 rounded-lg border transition-all duration-200 cursor-pointer group",
                   !notification.read 
-                    ? "border-[#14b8a6]/30 bg-[#14b8a6]/5"
-                    : "border-transparent hover:border-[#3a4254]"
+                    ? "border-blue-300 bg-blue-50"
+                    : "border-gray-200 hover:border-gray-300"
                 )}
-                style={{
-                  backgroundColor: notification.read 
-                    ? colors.glass 
-                    : `${colors.auroraTeal}08`
-                }}
                 onClick={() => !notification.read && markAsRead(notification.id)}
               >
                 <div className="flex items-start gap-3">
@@ -237,20 +232,20 @@ export function NotificationsPanel({ className }: NotificationsPanelProps) {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between mb-1">
                       <h4 className={cn(
-                        "text-sm font-medium transition-colors",
+                        "text-sm font-semibold transition-colors",
                         !notification.read ? "text-gray-900" : "text-gray-700"
                       )}>
                         {notification.title}
                       </h4>
                       
                       {!notification.read && (
-                        <div className="w-2 h-2 bg-[#14b8a6] rounded-full flex-shrink-0 mt-1.5" />
+                        <div className="w-3 h-3 bg-red-500 rounded-full flex-shrink-0 mt-1 shadow-sm" />
                       )}
                     </div>
                     
                     <p className={cn(
                       "text-xs leading-relaxed mb-2",
-                      !notification.read ? "text-gray-700" : "text-gray-600"
+                      !notification.read ? "text-gray-800" : "text-gray-600"
                     )}>
                       {notification.message}
                     </p>
