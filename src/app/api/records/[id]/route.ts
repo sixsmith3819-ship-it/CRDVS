@@ -3,9 +3,11 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
+    
     const supabase = await createClient()
 
     // Get session
@@ -40,6 +42,14 @@ export async function PUT(
       )
     }
 
+    // Validate ID format
+    if (!id) {
+      return NextResponse.json(
+        { error: 'Record ID is required' },
+        { status: 400 }
+      )
+    }
+
     // Update record
     const { data: updatedRecord, error } = await supabase
       .from('criminal_records')
@@ -50,7 +60,7 @@ export async function PUT(
         address,
         status,
       })
-      .eq('id', params.id)
+      .eq('id', id)
       .select()
 
     if (error) {
