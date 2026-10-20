@@ -24,7 +24,7 @@ export async function POST(request: Request) {
       .eq('id', session.user.id)
       .single()
 
-    if (!profile || !['administrator', 'police_officer'].includes((profile as any)?.role)) {
+    if (!profile || !['administrator', 'police_officer', 'court_officer'].includes((profile as any)?.role)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
     }
 
