@@ -160,13 +160,15 @@ export function AddConvictionForm({ recordId, recordData }: AddConvictionFormPro
             disabled={loading}
             required
           >
+            <option value="violent_crime">Violent Crime (Assault, Robbery, Murder)</option>
+            <option value="property_crime">Property Crime (Theft, Burglary, Vandalism)</option>
             <option value="sexual_offense">Sexual Offense</option>
-            <option value="assault">Assault</option>
-            <option value="theft">Theft</option>
-            <option value="robbery">Robbery</option>
-            <option value="fraud">Fraud</option>
             <option value="drug_offense">Drug Offense</option>
-            <option value="violent_crime">Violent Crime</option>
+            <option value="financial_crime">Financial Crime (Fraud, Embezzlement)</option>
+            <option value="cybercrime">Cybercrime</option>
+            <option value="terrorism">Terrorism</option>
+            <option value="organized_crime">Organized Crime</option>
+            <option value="traffic_offense">Traffic Offense</option>
             <option value="other">Other</option>
           </select>
         </div>
