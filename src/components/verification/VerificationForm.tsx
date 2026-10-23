@@ -188,7 +188,7 @@ export function VerificationForm({ userRole, userId, className }: VerificationFo
       setResults(data)
       success(
         'Verification Complete',
-        `Found ${data.results?.length || 0} matching records`,
+        `Found ${data.records?.length || 0} matching records`,
         { duration: 4000 }
       )
 
