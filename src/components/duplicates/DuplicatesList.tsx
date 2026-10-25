@@ -37,6 +37,7 @@ export function DuplicatesList({
   const [reviewNotes, setReviewNotes] = useState('')
   const [mergeNotes, setMergeNotes] = useState('')
   const [loading, setLoading] = useState(false)
+  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null)
 
   const handleReview = async (flagId: string, status: string) => {
     setLoading(true)
@@ -112,6 +113,31 @@ export function DuplicatesList({
     } catch (error: any) {
       console.error('Error merging records:', error)
       alert(`Failed to merge records: ${error.message}`)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleDelete = async (flagId: string) => {
+    setLoading(true)
+    try {
+      const response = await fetch(`/api/duplicates/${flagId}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' }
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error || 'Failed to delete flag')
+      }
+
+      // Remove from local state
+      setFlags(flags.filter(f => f.id !== flagId))
+      setDeleteConfirmId(null)
+      alert('Duplicate flag deleted successfully')
+    } catch (error: any) {
+      console.error('Error deleting flag:', error)
+      alert(`Failed to delete flag: ${error.message}`)
     } finally {
       setLoading(false)
     }
@@ -291,6 +317,24 @@ export function DuplicatesList({
                 >
                   Review
                 </button>
+                <button
+                  onClick={() => setDeleteConfirmId(flag.id)}
+                  className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors font-medium text-sm"
+                >
+                  Delete
+                </button>
+              </div>
+            )}
+
+            {/* For non-pending flags, show delete option */}
+            {flag.flag_status !== 'pending_review' && (
+              <div className="flex gap-3 pt-4 border-t border-gray-200">
+                <button
+                  onClick={() => setDeleteConfirmId(flag.id)}
+                  className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors font-medium text-sm"
+                >
+                  Delete Flag
+                </button>
               </div>
             )}
 
@@ -465,6 +509,41 @@ export function DuplicatesList({
                   setSelectedPrimaryId(null)
                   setMergeNotes('')
                 }}
+                disabled={loading}
+                className="flex-1 bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors font-medium"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {deleteConfirmId && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg max-w-md w-full p-6">
+            <div className="flex items-center justify-center w-12 h-12 mx-auto bg-red-100 rounded-full mb-4">
+              <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </div>
+
+            <h3 className="text-lg font-semibold text-gray-900 text-center mb-2">Delete Duplicate Flag?</h3>
+            <p className="text-sm text-gray-600 text-center mb-6">
+              This will permanently delete the duplicate flag record. The criminal records themselves will not be affected.
+            </p>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => handleDelete(deleteConfirmId)}
+                disabled={loading}
+                className="flex-1 bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? 'Deleting...' : 'Delete'}
+              </button>
+              <button
+                onClick={() => setDeleteConfirmId(null)}
                 disabled={loading}
                 className="flex-1 bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors font-medium"
               >

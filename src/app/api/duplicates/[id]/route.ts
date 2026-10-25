@@ -81,7 +81,7 @@ export async function PATCH(
 
 /**
  * DELETE /api/duplicates/[id]
- * Delete a duplicate flag (admin only)
+ * Delete a duplicate flag (admin, police, and court officers)
  */
 export async function DELETE(
   request: Request,
@@ -97,15 +97,15 @@ export async function DELETE(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Check if user is admin
+    // Check if user has permission
     const { data: profile } = await supabase
       .from('profiles')
       .select('role')
       .eq('id', session.user.id)
       .single()
 
-    if (!profile || (profile as any)?.role !== 'administrator') {
-      return NextResponse.json({ error: 'Only administrators can delete duplicate flags' }, { status: 403 })
+    if (!profile || !['administrator', 'police_officer', 'court_officer'].includes((profile as any)?.role)) {
+      return NextResponse.json({ error: 'Only administrators, police, and court officers can delete duplicate flags' }, { status: 403 })
     }
 
     // Delete the duplicate flag
