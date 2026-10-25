@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { createClient as createServiceClient } from '@supabase/supabase-js'
 import { validateEmail, validatePassword } from '@/lib/utils/validation'
 import type { UserRole } from '@/types/database'
 
@@ -90,8 +91,14 @@ export async function signupAction(formData: FormData): Promise<SignupResult> {
   }
 
   // Create profile record in the profiles table
+  // Use service role client to bypass RLS (signup users aren't admin yet)
   try {
-    const { error: profileError, data: profileData } = await supabase
+    const serviceClient = createServiceClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
+    )
+
+    const { error: profileError, data: profileData } = await serviceClient
       .from('profiles')
       .insert({
         id: authData.user.id,
