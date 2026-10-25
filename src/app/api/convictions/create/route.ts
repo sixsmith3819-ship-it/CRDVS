@@ -81,20 +81,6 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Update prior_conviction_count on the criminal record
-    const { data: record } = await supabase
-      .from('criminal_records')
-      .select('prior_conviction_count')
-      .eq('id', criminalRecordId)
-      .single()
-
-    if (record) {
-      await supabase
-        .from('criminal_records')
-        .update({ prior_conviction_count: (record.prior_conviction_count || 0) + 1 })
-        .eq('id', criminalRecordId)
-    }
-
     return NextResponse.json({
       success: true,
       conviction,
