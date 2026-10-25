@@ -188,9 +188,18 @@ export default async function RecordDetailPage({
                           <h3 className="font-medium text-gray-900">{conviction.offense_description}</h3>
                           <p className="text-sm text-gray-600 mt-1">Case: {conviction.case_number}</p>
                         </div>
-                        <span className="px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-800 capitalize">
-                          {conviction.verdict.replace('_', ' ')}
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <span className="px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-800 capitalize">
+                            {conviction.verdict.replace('_', ' ')}
+                          </span>
+                          <Link
+                            href={`/dashboard/records/${id}/convictions/${conviction.id}/edit`}
+                            className="px-2 py-1 text-xs font-medium text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded transition-colors"
+                            title="Edit this conviction"
+                          >
+                            Edit
+                          </Link>
+                        </div>
                       </div>
                       <div className="grid grid-cols-2 gap-4 text-sm">
                         <div>
