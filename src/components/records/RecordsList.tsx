@@ -22,6 +22,50 @@ export function RecordsList({
 
   const totalPages = Math.ceil(total / pageSize)
 
+  // Function to get status color
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'active':
+        return 'bg-green-100 text-green-800'
+      case 'archived':
+        return 'bg-gray-100 text-gray-800'
+      case 'deceased':
+        return 'bg-red-100 text-red-800'
+      default:
+        return 'bg-gray-100 text-gray-800'
+    }
+  }
+
+  const getVerdictColor = (verdict: string) => {
+    switch (verdict) {
+      case 'guilty':
+        return 'bg-red-100 text-red-800'
+      case 'not_guilty':
+        return 'bg-green-100 text-green-800'
+      case 'acquitted':
+        return 'bg-green-100 text-green-800'
+      case 'pleaded_guilty':
+        return 'bg-orange-100 text-orange-800'
+      case 'dismissed':
+        return 'bg-blue-100 text-blue-800'
+      case 'pending':
+        return 'bg-yellow-100 text-yellow-800'
+      default:
+        return 'bg-gray-100 text-gray-800'
+    }
+  }
+
+  const getLatestConvictionVerdict = (convictions: any) => {
+    if (!convictions || convictions.length === 0) return null
+    // Sort by conviction_date or created_at to get the latest
+    const sorted = [...convictions].sort((a, b) => {
+      const dateA = new Date(a.conviction_date || a.created_at).getTime()
+      const dateB = new Date(b.conviction_date || b.created_at).getTime()
+      return dateB - dateA
+    })
+    return sorted[0]
+  }
+
   const handleDelete = async (recordId: string, recordIdDisplay: string) => {
     if (!confirm(`Are you sure you want to delete record ${recordIdDisplay}? This action cannot be undone.`)) {
       return
@@ -101,7 +145,7 @@ export function RecordsList({
                 Status
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Convictions
+                Convictions & Verdict
               </th>
               <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Actions
@@ -129,12 +173,19 @@ export function RecordsList({
                   )}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-800 capitalize">
+                  <span className={`px-3 py-1 text-xs font-medium rounded-full ${getStatusColor(record.status)} capitalize`}>
                     {record.status.replace('_', ' ')}
                   </span>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {record.prior_conviction_count}
+                <td className="px-6 py-4">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium text-gray-900">{record.prior_conviction_count}</span>
+                    {record.convictions && record.convictions.length > 0 && getLatestConvictionVerdict(record.convictions) && (
+                      <span className={`px-2 py-1 text-xs font-medium rounded-full ${getVerdictColor(getLatestConvictionVerdict(record.convictions).verdict)}`}>
+                        {getLatestConvictionVerdict(record.convictions).verdict.replace('_', ' ')}
+                      </span>
+                    )}
+                  </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   <div className="relative inline-block">

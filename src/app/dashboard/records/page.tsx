@@ -16,7 +16,15 @@ export default async function RecordsPage({
   // Build query
   let query = supabase
     .from('criminal_records')
-    .select('*', { count: 'exact' })
+    .select(`
+      *,
+      convictions (
+        id,
+        verdict,
+        conviction_date,
+        created_at
+      )
+    `, { count: 'exact' })
     .order('created_at', { ascending: false })
 
   // Apply filters
