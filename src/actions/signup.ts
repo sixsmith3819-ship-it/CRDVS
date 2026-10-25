@@ -89,6 +89,32 @@ export async function signupAction(formData: FormData): Promise<SignupResult> {
     }
   }
 
+  // Create profile record in the profiles table
+  try {
+    const { error: profileError } = await supabase
+      .from('profiles')
+      .insert({
+        id: authData.user.id,
+        email: email.trim().toLowerCase(),
+        full_name: fullName.trim(),
+        employee_id: employeeId.trim(),
+        role,
+        department: department?.trim() || null,
+        station: station?.trim() || null,
+        rank: rank?.trim() || null,
+        phone: phone?.trim() || null,
+        is_active: true,
+      })
+
+    if (profileError) {
+      console.error('Error creating profile:', profileError)
+      return { success: false, error: 'Failed to create user profile. Please contact an administrator.' }
+    }
+  } catch (error) {
+    console.error('Error creating profile:', error)
+    return { success: false, error: 'Failed to create user profile. Please contact an administrator.' }
+  }
+
   // Log the signup
   try {
     const auditLog: any = {
