@@ -23,10 +23,12 @@ export function SignupForm() {
       setLoading(false)
     } else if (result.success) {
       setSuccess(true)
-      // Redirect to dashboard after 2 seconds
-      setTimeout(() => {
+      // Delay to allow session to propagate
+      setTimeout(async () => {
+        // Force a small delay to ensure session cookies are set
+        await new Promise(resolve => setTimeout(resolve, 1000))
         router.push('/dashboard')
-      }, 2000)
+      }, 1500)
     }
   }
 

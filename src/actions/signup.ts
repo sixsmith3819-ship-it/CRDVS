@@ -91,7 +91,7 @@ export async function signupAction(formData: FormData): Promise<SignupResult> {
 
   // Create profile record in the profiles table
   try {
-    const { error: profileError } = await supabase
+    const { error: profileError, data: profileData } = await supabase
       .from('profiles')
       .insert({
         id: authData.user.id,
@@ -105,11 +105,15 @@ export async function signupAction(formData: FormData): Promise<SignupResult> {
         phone: phone?.trim() || null,
         is_active: true,
       })
+      .select()
 
     if (profileError) {
       console.error('Error creating profile:', profileError)
-      return { success: false, error: 'Failed to create user profile. Please contact an administrator.' }
+      console.error('Profile error details:', { code: profileError.code, message: profileError.message })
+      return { success: false, error: `Failed to create user profile: ${profileError.message}` }
     }
+    
+    console.log('Profile created successfully:', profileData)
   } catch (error) {
     console.error('Error creating profile:', error)
     return { success: false, error: 'Failed to create user profile. Please contact an administrator.' }
