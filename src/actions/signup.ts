@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { createClient as createServiceClient } from '@supabase/supabase-js'
 import { validateEmail, validatePassword } from '@/lib/utils/validation'
 import type { UserRole } from '@/types/database'
 
@@ -92,10 +93,14 @@ export async function signupAction(formData: FormData): Promise<SignupResult> {
   // Create profile record in the profiles table with the authenticated user
   // The new RLS policy allows users to create their own profile during signup
   try {
-    // Create a new client with the authenticated user
-    const userClient = await createClient()
+    // Use service role client to bypass RLS on initial profile creation
+    // This is the only way to create a profile for a newly registered user
+    const serviceClient = createServiceClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
+    )
 
-    const { error: profileError, data: profileData } = await userClient
+    const { error: profileError, data: profileData } = await serviceClient
       .from('profiles')
       .insert({
         id: authData.user.id,
