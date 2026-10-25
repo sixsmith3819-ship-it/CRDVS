@@ -2,7 +2,11 @@
 
 import { useState } from 'react'
 
-export function DetectionTrigger() {
+interface DetectionTriggerProps {
+  onDetectionComplete?: () => void
+}
+
+export function DetectionTrigger({ onDetectionComplete }: DetectionTriggerProps) {
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<any>(null)
   const [error, setError] = useState<string | null>(null)
@@ -26,6 +30,11 @@ export function DetectionTrigger() {
       }
 
       setResult(data)
+
+      // Call the callback to refresh parent data
+      if (onDetectionComplete) {
+        onDetectionComplete()
+      }
     } catch (err: any) {
       setError(err.message)
     } finally {

@@ -24,9 +24,11 @@ interface DuplicateFlag {
 }
 
 export function DuplicatesList({ 
-  initialFlags 
+  initialFlags,
+  refreshKey 
 }: { 
-  initialFlags: DuplicateFlag[] 
+  initialFlags: DuplicateFlag[]
+  refreshKey?: string 
 }) {
   const [flags, setFlags] = useState<DuplicateFlag[]>(initialFlags)
   const [selectedFlag, setSelectedFlag] = useState<DuplicateFlag | null>(null)
