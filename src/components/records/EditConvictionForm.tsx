@@ -3,6 +3,10 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/Button'
+import { 
+  validateConvictionForm,
+  ConvictionValidationErrors 
+} from '@/lib/utils/convictionValidation'
 
 interface EditConvictionFormProps {
   recordId: string
@@ -36,6 +40,7 @@ export function EditConvictionForm({
   const [loading, setLoading] = useState(false)
   const [deleting, setDeleting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [validationErrors, setValidationErrors] = useState<ConvictionValidationErrors>({})
   const [formData, setFormData] = useState({
     caseNumber: conviction.case_number,
     offenseCategory: conviction.offense_category,
@@ -55,26 +60,16 @@ export function EditConvictionForm({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
+    setValidationErrors({})
 
-    // Validation
-    if (!formData.caseNumber.trim()) {
-      setError('Case number is required')
-      return
-    }
-    if (!/^CASE-\d{4}-\d{5}$/.test(formData.caseNumber)) {
-      setError('Case number must follow format: CASE-YYYY-DDDDD (e.g., CASE-2026-00123)')
-      return
-    }
-    if (!formData.offenseDescription.trim()) {
-      setError('Offense description is required')
-      return
-    }
-    if (!formData.courtName.trim()) {
-      setError('Court name is required')
-      return
-    }
-    if (!formData.chargeDate) {
-      setError('Charge date is required')
+    // Validate all fields
+    const validation = validateConvictionForm(formData)
+
+    if (!validation.valid) {
+      setValidationErrors(validation.errors)
+      // Show first error as primary error message
+      const firstError = Object.values(validation.errors)[0]
+      setError(firstError || 'Please fix the validation errors')
       return
     }
 
@@ -85,14 +80,14 @@ export function EditConvictionForm({
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          caseNumber: formData.caseNumber,
+          caseNumber: formData.caseNumber.trim(),
           offenseCategory: formData.offenseCategory,
-          offenseDescription: formData.offenseDescription,
-          courtName: formData.courtName,
+          offenseDescription: formData.offenseDescription.trim(),
+          courtName: formData.courtName.trim(),
           chargeDate: formData.chargeDate,
           convictionDate: formData.convictionDate || null,
           verdict: formData.verdict,
-          sentenceDescription: formData.sentenceDescription || null,
+          sentenceDescription: formData.sentenceDescription.trim() || null,
         })
       })
 
@@ -180,10 +175,15 @@ export function EditConvictionForm({
             onChange={handleChange}
             placeholder="CASE-2026-00123"
             pattern="^CASE-\d{4}-\d{5}$"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className={`w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+              validationErrors.caseNumber ? 'border-red-500' : 'border-gray-300'
+            }`}
             disabled={loading || deleting}
             required
           />
+          {validationErrors.caseNumber && (
+            <p className="text-sm text-red-600 mt-1">{validationErrors.caseNumber}</p>
+          )}
           <p className="text-xs text-gray-500 mt-1">Format: CASE-YYYY-DDDDD (e.g., CASE-2026-00123)</p>
         </div>
 
@@ -224,10 +224,16 @@ export function EditConvictionForm({
             onChange={handleChange}
             rows={2}
             placeholder="e.g., Sexual assault of a minor"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className={`w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+              validationErrors.offenseDescription ? 'border-red-500' : 'border-gray-300'
+            }`}
             disabled={loading || deleting}
             required
           />
+          {validationErrors.offenseDescription && (
+            <p className="text-sm text-red-600 mt-1">{validationErrors.offenseDescription}</p>
+          )}
+          <p className="text-xs text-gray-500 mt-1">Must contain letters (no pure numbers), min 5 characters</p>
         </div>
 
         <div>
@@ -241,10 +247,16 @@ export function EditConvictionForm({
             value={formData.courtName}
             onChange={handleChange}
             placeholder="e.g., Harare High Court"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className={`w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+              validationErrors.courtName ? 'border-red-500' : 'border-gray-300'
+            }`}
             disabled={loading || deleting}
             required
           />
+          {validationErrors.courtName && (
+            <p className="text-sm text-red-600 mt-1">{validationErrors.courtName}</p>
+          )}
+          <p className="text-xs text-gray-500 mt-1">Must contain letters (no pure numbers)</p>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
@@ -258,10 +270,16 @@ export function EditConvictionForm({
               name="chargeDate"
               value={formData.chargeDate}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className={`w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                validationErrors.chargeDate ? 'border-red-500' : 'border-gray-300'
+              }`}
               disabled={loading || deleting}
               required
             />
+            {validationErrors.chargeDate && (
+              <p className="text-sm text-red-600 mt-1">{validationErrors.chargeDate}</p>
+            )}
+            <p className="text-xs text-gray-500 mt-1">Cannot be in the future</p>
           </div>
 
           <div>
@@ -274,9 +292,15 @@ export function EditConvictionForm({
               name="convictionDate"
               value={formData.convictionDate}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className={`w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                validationErrors.convictionDate ? 'border-red-500' : 'border-gray-300'
+              }`}
               disabled={loading || deleting}
             />
+            {validationErrors.convictionDate && (
+              <p className="text-sm text-red-600 mt-1">{validationErrors.convictionDate}</p>
+            )}
+            <p className="text-xs text-gray-500 mt-1">Must be after charge date</p>
           </div>
         </div>
 
@@ -313,9 +337,15 @@ export function EditConvictionForm({
             onChange={handleChange}
             rows={2}
             placeholder="e.g., 12 years imprisonment"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className={`w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+              validationErrors.sentenceDescription ? 'border-red-500' : 'border-gray-300'
+            }`}
             disabled={loading || deleting}
           />
+          {validationErrors.sentenceDescription && (
+            <p className="text-sm text-red-600 mt-1">{validationErrors.sentenceDescription}</p>
+          )}
+          <p className="text-xs text-gray-500 mt-1">Optional. Must contain letters if provided</p>
         </div>
       </div>
 
