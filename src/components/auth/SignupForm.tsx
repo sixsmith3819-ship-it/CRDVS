@@ -2,21 +2,68 @@
 
 import { useState } from 'react'
 import { signupAction } from '@/actions/signup'
+import {
+  validateSignupForm,
+  type SignupValidationErrors,
+} from '@/lib/utils/signupValidation'
 
 export function SignupForm() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
+  const [validationErrors, setValidationErrors] = useState<SignupValidationErrors>({})
+  const [formData, setFormData] = useState({
+    fullName: '',
+    employeeId: '',
+    email: '',
+    role: '',
+    rank: '',
+    department: '',
+    phone: '',
+    password: '',
+    confirmPassword: '',
+  })
+
+  // Clear error for a specific field when user starts typing
+  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+    const { name, value } = e.currentTarget
+    setFormData(prev => ({
+      ...prev,
+      [name]: value,
+    }))
+    // Clear validation error for this field
+    if (validationErrors[name as keyof SignupValidationErrors]) {
+      setValidationErrors(prev => ({
+        ...prev,
+        [name]: undefined,
+      }))
+    }
+  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    setLoading(true)
     setError(null)
 
-    const formData = new FormData(e.currentTarget)
+    // Validate all fields before submission
+    const validation = validateSignupForm(formData)
+    if (!validation.valid) {
+      setValidationErrors(validation.errors)
+      return
+    }
+
+    setLoading(true)
+    setValidationErrors({})
+
+    const submissionFormData = new FormData()
+    Object.entries(formData).forEach(([key, value]) => {
+      if (value) {
+        submissionFormData.append(key, value)
+      }
+    })
+
     try {
       // signupAction will throw a redirect() which is the Next.js way of handling redirects
-      await signupAction(formData)
+      await signupAction(submissionFormData)
     } catch (err: any) {
       // If it's not a redirect, it's an error
       if (err.message && !err.message.includes('NEXT_REDIRECT')) {
@@ -56,10 +103,20 @@ export function SignupForm() {
             name="fullName"
             type="text"
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            value={formData.fullName}
+            onChange={handleChange}
+            className={`w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${
+              validationErrors.fullName
+                ? 'border-red-500 bg-red-50'
+                : 'border-gray-300'
+            }`}
             placeholder="John Tendai Moyo"
             disabled={loading}
           />
+          {validationErrors.fullName && (
+            <p className="text-red-600 text-sm mt-1">{validationErrors.fullName}</p>
+          )}
+          <p className="text-xs text-gray-500 mt-1">Letters, spaces, hyphens, and apostrophes only</p>
         </div>
 
         {/* Employee ID */}
@@ -72,10 +129,20 @@ export function SignupForm() {
             name="employeeId"
             type="text"
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            value={formData.employeeId}
+            onChange={handleChange}
+            className={`w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${
+              validationErrors.employeeId
+                ? 'border-red-500 bg-red-50'
+                : 'border-gray-300'
+            }`}
             placeholder="EMP123"
             disabled={loading}
           />
+          {validationErrors.employeeId && (
+            <p className="text-red-600 text-sm mt-1">{validationErrors.employeeId}</p>
+          )}
+          <p className="text-xs text-gray-500 mt-1">Letters, numbers, and hyphens (3-50 characters)</p>
         </div>
 
         {/* Email */}
@@ -88,10 +155,19 @@ export function SignupForm() {
             name="email"
             type="email"
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            value={formData.email}
+            onChange={handleChange}
+            className={`w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${
+              validationErrors.email
+                ? 'border-red-500 bg-red-50'
+                : 'border-gray-300'
+            }`}
             placeholder="user@magistrates.gov.zw"
             disabled={loading}
           />
+          {validationErrors.email && (
+            <p className="text-red-600 text-sm mt-1">{validationErrors.email}</p>
+          )}
         </div>
 
         {/* Role */}
@@ -103,7 +179,13 @@ export function SignupForm() {
             id="role"
             name="role"
             required
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            value={formData.role}
+            onChange={handleChange}
+            className={`w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${
+              validationErrors.role
+                ? 'border-red-500 bg-red-50'
+                : 'border-gray-300'
+            }`}
             disabled={loading}
           >
             <option value="">Select your role</option>
@@ -111,6 +193,9 @@ export function SignupForm() {
             <option value="court_officer">Court Officer</option>
             <option value="prison_officer">Prison Officer</option>
           </select>
+          {validationErrors.role && (
+            <p className="text-red-600 text-sm mt-1">{validationErrors.role}</p>
+          )}
         </div>
 
         {/* Rank */}
@@ -122,10 +207,20 @@ export function SignupForm() {
             id="rank"
             name="rank"
             type="text"
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            value={formData.rank}
+            onChange={handleChange}
+            className={`w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${
+              validationErrors.rank
+                ? 'border-red-500 bg-red-50'
+                : 'border-gray-300'
+            }`}
             placeholder="Constable, Sergeant, Inspector..."
             disabled={loading}
           />
+          {validationErrors.rank && (
+            <p className="text-red-600 text-sm mt-1">{validationErrors.rank}</p>
+          )}
+          <p className="text-xs text-gray-500 mt-1">Letters, spaces, hyphens, and periods (optional)</p>
         </div>
 
         {/* Department */}
@@ -137,10 +232,20 @@ export function SignupForm() {
             id="department"
             name="department"
             type="text"
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            value={formData.department}
+            onChange={handleChange}
+            className={`w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${
+              validationErrors.department
+                ? 'border-red-500 bg-red-50'
+                : 'border-gray-300'
+            }`}
             placeholder="CID, Traffic, etc."
             disabled={loading}
           />
+          {validationErrors.department && (
+            <p className="text-red-600 text-sm mt-1">{validationErrors.department}</p>
+          )}
+          <p className="text-xs text-gray-500 mt-1">Letters, numbers, spaces, hyphens, commas, slashes (optional)</p>
         </div>
 
         {/* Station */}
@@ -168,10 +273,20 @@ export function SignupForm() {
             id="phone"
             name="phone"
             type="tel"
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            value={formData.phone}
+            onChange={handleChange}
+            className={`w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${
+              validationErrors.phone
+                ? 'border-red-500 bg-red-50'
+                : 'border-gray-300'
+            }`}
             placeholder="+263 XX XXX XXXX"
             disabled={loading}
           />
+          {validationErrors.phone && (
+            <p className="text-red-600 text-sm mt-1">{validationErrors.phone}</p>
+          )}
+          <p className="text-xs text-gray-500 mt-1">Zimbabwe format: +263771234567 or 0771234567 (optional)</p>
         </div>
 
         {/* Password */}
@@ -184,13 +299,21 @@ export function SignupForm() {
             name="password"
             type="password"
             required
-            minLength={8}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            value={formData.password}
+            onChange={handleChange}
+            className={`w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${
+              validationErrors.password
+                ? 'border-red-500 bg-red-50'
+                : 'border-gray-300'
+            }`}
             placeholder="Minimum 8 characters"
             disabled={loading}
           />
+          {validationErrors.password && (
+            <p className="text-red-600 text-sm mt-1">{validationErrors.password}</p>
+          )}
           <p className="text-xs text-gray-500 mt-1">
-            Must be at least 8 characters long
+            Must contain: uppercase, lowercase, number, special character (!@#$%^&* etc)
           </p>
         </div>
 
@@ -204,11 +327,19 @@ export function SignupForm() {
             name="confirmPassword"
             type="password"
             required
-            minLength={8}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            className={`w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${
+              validationErrors.confirmPassword
+                ? 'border-red-500 bg-red-50'
+                : 'border-gray-300'
+            }`}
             placeholder="Re-enter your password"
             disabled={loading}
           />
+          {validationErrors.confirmPassword && (
+            <p className="text-red-600 text-sm mt-1">{validationErrors.confirmPassword}</p>
+          )}
         </div>
       </div>
 
