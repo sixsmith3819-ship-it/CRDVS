@@ -1,14 +1,12 @@
 ﻿'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { signupAction } from '@/actions/auth'
+import { signupAction } from '@/actions/signup'
 
 export function SignupForm() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
-  const router = useRouter()
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -16,19 +14,16 @@ export function SignupForm() {
     setError(null)
 
     const formData = new FormData(e.currentTarget)
-    const result = await signupAction(formData)
-
-    if (result?.error) {
-      setError(result.error)
-      setLoading(false)
-    } else if (result.success) {
-      setSuccess(true)
-      // Delay to allow session to propagate
-      setTimeout(async () => {
-        // Force a small delay to ensure session cookies are set
-        await new Promise(resolve => setTimeout(resolve, 1000))
-        router.push('/dashboard')
-      }, 1500)
+    try {
+      // signupAction will throw a redirect() which is the Next.js way of handling redirects
+      await signupAction(formData)
+    } catch (err: any) {
+      // If it's not a redirect, it's an error
+      if (err.message && !err.message.includes('NEXT_REDIRECT')) {
+        setError(err.message)
+        setLoading(false)
+      }
+      // Redirect errors are expected and will be handled by Next.js
     }
   }
 

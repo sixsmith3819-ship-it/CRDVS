@@ -1,5 +1,6 @@
 'use server'
 
+import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { createClient as createServiceClient } from '@supabase/supabase-js'
 import { validateEmail, validatePassword } from '@/lib/utils/validation'
@@ -142,5 +143,7 @@ export async function signupAction(formData: FormData): Promise<SignupResult> {
     console.error('Failed to log signup:', error)
   }
 
-  return { success: true }
+  // Success - redirect to dashboard using server-side redirect
+  // This ensures the session is properly established before rendering
+  redirect('/dashboard')
 }
